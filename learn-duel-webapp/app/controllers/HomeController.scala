@@ -26,7 +26,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
 
   def index() = Action {
     val menuAsText = controllerServer.menuToText
-    Ok(menuAsText)
+    Ok(views.html.index())
   }
 
   def help() = Action {
