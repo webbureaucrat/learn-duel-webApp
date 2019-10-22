@@ -2,17 +2,21 @@ package controllers
 
 import javax.inject._
 import play.api._
-import scala.concurrent.Future
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
+import scala.concurrent.Future
 import play.api.mvc._
 import de.htwg.se.learn_duel.controller.Controller
+import forms.PlayerForm
+import play.api.i18n.I18nSupport
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, controllerServer: Controller) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents, controllerServer: Controller) extends AbstractController(cc) with I18nSupport {
 
   /**
    * Create an Action to render an HTML page.
@@ -30,14 +34,16 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     Ok(views.html.about())
   }
 
-  def viewPlayers() = Action{
-    Ok(views.html.players())
+  def viewPlayers() = Action{ implicit  request =>
+    Ok(views.html.players(PlayerForm.form))
   }
 
   // GET
-  def startQuestions(player: String) = Action{
+  def startQuestions() = Action{
     implicit request =>
-      addPlayer(player)
+      val formData: PlayerForm = PlayerForm.form.bindFromRequest.get
+      println(formData.name.toString)
+      addPlayer(formData.name)
       //println(player)
       Ok(views.html.questions())
   }
@@ -50,11 +56,16 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
       case false => Option(p)
     }
 
+    controllerServer.getPlayerNames.foreach(f => println(f))
+
+    val tmpPlayer = controllerServer.getPlayerNames(0)
+
     if(!controllerServer.getPlayerNames.contains(p)){
       controllerServer.onAddPlayer(param)
+      controllerServer.onRemovePlayer(tmpPlayer)
     }
 
-    println(controllerServer.getPlayerNames)
+    controllerServer.getPlayerNames.foreach(f => println(f))
 
     Future.successful(NoContent)
   }
