@@ -1,0 +1,17 @@
+@import helper._
+
+@helper.inputText()
+
+@main("Select Players") {
+    <h1>Play the game!</h1>
+
+    <p>Choose your Players name:</p>
+    <label for="playerName">Name: </label>
+    <input type="text" id="playerName" value="Player1" />
+
+    <br><br>
+
+    <form action="@controllers.routes.HomeController.startQuestions("Player1")">
+        <input type="submit" value="Start Game" />
+    </form>
+}

@@ -1,5 +1,5 @@
 @*
- * This template is called from the `index` template. This template
+ * This template is called from the `about` template. This template
  * handles the rendering of the page header and body tags. It takes
  * two arguments, a `String` for the title of the page and an `Html`
  * object to insert into the body of the page.
@@ -21,12 +21,12 @@
         <table align="center">
             <tr>
                 <th>
-                    <form action="@controllers.routes.HomeController.index()">
+                    <form action="@controllers.routes.HomeController.about()">
                         <input type="submit" value="About Learn Duel" />
                     </form>
                 </th>
                 <th>
-                    <form action="@controllers.routes.HomeController.play()">
+                    <form action="@controllers.routes.HomeController.viewPlayers()">
                         <input type="submit" value="Play Learn Duel" />
                     </form>
                 </th>
