@@ -18,6 +18,21 @@
     <body>
         @* And here's where we render the `Html` object containing
          * the page content. *@
+        <table align="center">
+            <tr>
+                <th>
+                    <form action="@controllers.routes.HomeController.index()">
+                        <input type="submit" value="About Learn Duel" />
+                    </form>
+                </th>
+                <th>
+                    <form action="@controllers.routes.HomeController.play()">
+                        <input type="submit" value="Play Learn Duel" />
+                    </form>
+                </th>
+            </tr>
+        </table>
+        <hr>
         @content
 
       <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>

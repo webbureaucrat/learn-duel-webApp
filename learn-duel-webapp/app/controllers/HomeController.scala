@@ -32,4 +32,8 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
   def help() = Action {
     Ok(controllerServer.helpToText)
   }
+
+  def play() = Action{
+    Ok(views.html.learnduel())
+  }
 }
