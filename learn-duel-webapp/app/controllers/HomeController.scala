@@ -17,7 +17,7 @@ import play.api.i18n.I18nSupport
  */
 @Singleton
 class HomeController @Inject()(cc: ControllerComponents, controllerServer: Controller) extends AbstractController(cc) with I18nSupport {
-
+  var counter = 1;
   /**
    * Create an Action to render an HTML page.
    *
@@ -40,33 +40,60 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
 
   // GET
   def startQuestions() = Action{
-    implicit request =>
-      val formData: PlayerForm = PlayerForm.form.bindFromRequest.get
-      println(formData.name.toString)
-      addPlayer(formData.name)
-      //println(player)
-      Ok(views.html.questions())
+//    implicit request =>
+//      val formData: PlayerForm = PlayerForm.form.bindFromRequest.get
+//      println(formData.name.toString)
+//      addPlayer(formData.name)
+//      //println(player)
+////      Ok(views.html.questions())
+      Redirect(routes.HomeController.start())
   }
 
-  // post
-  def addPlayer(p: String)(implicit request: Request[_]) = {
-    // do something that needs access to the request
-    val param = p.isEmpty match {
-      case true => None
-      case false => Option(p)
-    }
-
-    controllerServer.getPlayerNames.foreach(f => println(f))
-
-    val tmpPlayer = controllerServer.getPlayerNames(0)
-
-    if(!controllerServer.getPlayerNames.contains(p)){
-      controllerServer.onAddPlayer(param)
-      controllerServer.onRemovePlayer(tmpPlayer)
-    }
-
-    controllerServer.getPlayerNames.foreach(f => println(f))
-
-    Future.successful(NoContent)
+  def start() = Action {
+    controllerServer.reset()
+    counter = controllerServer.getGameState.questionCount()
+    controllerServer.onStartGame()
+    Ok(views.html.questions(controllerServer.getGameState.currentQuestion.get))
   }
+
+  def nextQuestion() = Action {
+
+    if(counter > 0) {
+      val question = controllerServer.getGameState.currentQuestion.get
+      Ok(views.html.questions(question))
+    } else {
+      Ok(views.html.score(controllerServer.getGameState.players))
+    }
+  }
+
+  def onAnswerChosen(position: Int) = Action {
+    println(controllerServer.getGameState.players.toString())
+    println(controllerServer.getGameState.currentQuestion.get)
+    controllerServer.onAnswerChosen(position)
+    println(controllerServer.getGameState.currentQuestion.get)
+    counter = counter -1
+    Redirect(routes.HomeController.nextQuestion())
+  }
+
+//  // post
+//  def addPlayer(p: String)(implicit request: Request[_]) = {
+//    // do something that needs access to the request
+//    val param = p.isEmpty match {
+//      case true => None
+//      case false => Option(p)
+//    }
+//
+//    controllerServer.getPlayerNames.foreach(f => println(f))
+//
+//    val tmpPlayer = controllerServer.getPlayerNames(0)
+//
+//    if(!controllerServer.getPlayerNames.contains(p)){
+//      controllerServer.onAddPlayer(param)
+//      controllerServer.onRemovePlayer(tmpPlayer)
+//    }
+//
+//    controllerServer.getPlayerNames.foreach(f => println(f))
+//
+//    Future.successful(NoContent)
+//  }
 }
