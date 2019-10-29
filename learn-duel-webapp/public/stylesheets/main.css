@@ -1,0 +1,8 @@
+@import "bootstrap.min.css";
+
+/*
+navbar cannot hide page content
+*/
+body {
+    padding-top: 65px;
+}

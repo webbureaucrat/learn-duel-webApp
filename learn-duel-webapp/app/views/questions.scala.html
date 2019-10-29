@@ -2,15 +2,15 @@
 @(question: Question)
 
 @main("Questions") {
-    <h1>@question.text</h1>
-    <ol>
-    @for(p <- question.answers) {
-        <li>
-            <a href="@routes.HomeController.onAnswerChosen(p.id)"
-            title="p.text">
-                @p.text
-            </a>
-        </li>
-    }
-    </ol>
+    <div class="row">
+        <div class="col align-self-center">
+            <h1 class="text-center">@question.text</h1>
+
+            <div class="list-group">
+            @for(p <- question.answers) {
+                <a href="@routes.HomeController.onAnswerChosen(p.id)" class="list-group-item list-group-item-action">@p.text</a>
+            }
+            </div>
+        </div>
+    </div>
 }

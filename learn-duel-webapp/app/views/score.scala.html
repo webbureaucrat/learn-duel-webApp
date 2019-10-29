@@ -2,26 +2,32 @@
 @(player: List[Player])
 
 @main("Score") {
-    <h1>Score!</h1>
-    <h3>@player(0).name</h3>
+    <div class="row">
+        <div class="col align-self-center">
+            <h2>Score!</h2>
+            <h5>@player(0).name</h5>
 
-    <p>Correct Answers: </p>
-    <ul>
-        @for(p <- player(0).correctAnswers) {
-            <li>@p.text</li>
-        }
-    </ul>
-    <br>
 
-    <p>Wrong Answers: </p>
-    <ul>
-    @for(p <- player(0).wrongAnswers) {
-        <li>@p.text</li>
-        <li>Korrekte Antwort ist : @p.answers.find(a => a.id == p.correctAnswer).get</li>
-    }
-    </ul>
+            <p><img src="@routes.Assets.versioned("images/circle-check-3x.png")" class="figure-img img-fluid rounded .img-thumbnail" alt="..."> Correct Answers: </p>
+            <ol class="list-unstyled">
+                @for(p <- player(0).correctAnswers) {
+                    <li>@p.text</li>
+                }
+            </ol>
+            <br>
 
-    <p>
-        Total Score: @player(0).points
-    </p>
+
+            <p> <img src="@routes.Assets.versioned("images/circle-x-3x.png")" class="figure-img img-fluid rounded .img-thumbnail" alt="..."> Wrong Answers: </p>
+            <ol class="list-unstyled">
+            @for(p <- player(0).wrongAnswers) {
+                <li>@p.text</li>
+                <li>Korrekte Antwort ist : @p.answers.find(a => a.id == p.correctAnswer).get</li>
+            }
+            </ol>
+
+            <p><strong>
+                Total Score: @player(0).points
+            </strong></p>
+        </div>
+    </div>
 }
