@@ -1,5 +1,27 @@
-@()
+@import de.htwg.se.learn_duel.model.{Player, Question}
+@(player: List[Player])
 
 @main("Score") {
     <h1>Score!</h1>
+    <h3>@player(0).name</h3>
+
+    <p>Correct Answers: </p>
+    <ul>
+        @for(p <- player(0).correctAnswers) {
+            <li>@p.text</li>
+        }
+    </ul>
+    <br>
+
+    <p>Wrong Answers: </p>
+    <ul>
+    @for(p <- player(0).wrongAnswers) {
+        <li>@p.text</li>
+        <li>Korrekte Antwort ist : @p.answers.find(a => a.id == p.correctAnswer).get</li>
+    }
+    </ul>
+
+    <p>
+        Total Score: @player(0).points
+    </p>
 }

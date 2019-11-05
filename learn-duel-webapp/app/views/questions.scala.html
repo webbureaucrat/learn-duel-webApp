@@ -1,5 +1,16 @@
-@()
+@import de.htwg.se.learn_duel.model.Question
+@(question: Question)
 
 @main("Questions") {
-    <h1>Questions!</h1>
+    <h1>@question.text</h1>
+    <ol>
+    @for(p <- question.answers) {
+        <li>
+            <a href="@routes.HomeController.onAnswerChosen(p.id)"
+            title="p.text">
+                @p.text
+            </a>
+        </li>
+    }
+    </ol>
 }
