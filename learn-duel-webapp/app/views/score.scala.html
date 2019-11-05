@@ -6,15 +6,15 @@
     <h3>@player(0).name</h3>
 
     <p>Correct Answers: </p>
-    <ul>
-        @for(p <- player(0).correctAnswers) {
-            <li>@p.text</li>
-        }
+    <ul class="list">
+    @for(p <- player(0).correctAnswers) {
+        <li>@p.text</li>
+    }
     </ul>
     <br>
 
     <p>Wrong Answers: </p>
-    <ul>
+    <ul class="list">
     @for(p <- player(0).wrongAnswers) {
         <li>@p.text</li>
         <li>Korrekte Antwort ist : @p.answers.find(a => a.id == p.correctAnswer).get</li>

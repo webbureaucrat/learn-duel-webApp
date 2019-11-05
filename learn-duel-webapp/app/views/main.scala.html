@@ -1,9 +1,9 @@
 @*
- * This template is called from the `about` template. This template
- * handles the rendering of the page header and body tags. It takes
- * two arguments, a `String` for the title of the page and an `Html`
- * object to insert into the body of the page.
- *@
+* This template is called from the `about` template. This template
+* handles the rendering of the page header and body tags. It takes
+* two arguments, a `String` for the title of the page and an `Html`
+* object to insert into the body of the page.
+*@
 @(title: String)(content: Html)
 
 <!DOCTYPE html>
@@ -17,24 +17,21 @@
     </head>
     <body>
         @* And here's where we render the `Html` object containing
-         * the page content. *@
-        <table align="center">
-            <tr>
-                <th>
-                    <form action="@controllers.routes.HomeController.about()">
-                        <input type="submit" value="About Learn Duel" />
-                    </form>
-                </th>
-                <th>
-                    <form action="@controllers.routes.HomeController.start()">
-                        <input type="submit" value="Play Learn Duel" />
-                    </form>
-                </th>
-            </tr>
-        </table>
+        * the page content. *@
+        <header>
+            <div class="learn_duel_menu">
+                <form action="@controllers.routes.HomeController.about()" id="about_form">
+                </form>
+                <button type="submit" form="about_form">About Learn Duel</button>
+
+                <form action="@controllers.routes.HomeController.start()" id="game_form">
+                </form>
+                <button type="submit" form="game_form">Play Learn Duel</button>
+            </div>
+        </header>
         <hr>
         @content
 
-      <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
     </body>
 </html>

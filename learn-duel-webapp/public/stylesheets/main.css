@@ -1,0 +1,58 @@
+* {
+    font-family: Avenir, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+}
+
+header {
+    background-color: darkturquoise;
+    margin: 0 auto;
+}
+
+button {
+    background-color: aliceblue;
+
+}
+
+.learn_duel_menu {
+    display: inline-flex;
+}
+
+table.center {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.link {
+    color: darkturquoise;
+}
+
+
+table.center {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.title {
+    font-size: 48px;
+    text-align: center;
+    color: darkturquoise;
+}
+
+.list {
+    list-style-type: square;
+    display: inline-block;
+    justify-content: center;
+}
+
+.a_button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: auto;
+
+    text-decoration: none;
+    color: initial;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+

@@ -3,14 +3,12 @@
 
 @main("Questions") {
     <h1>@question.text</h1>
-    <ol>
     @for(p <- question.answers) {
-        <li>
-            <a href="@routes.HomeController.onAnswerChosen(p.id)"
-            title="p.text">
-                @p.text
-            </a>
-        </li>
+
+        <a class="a_button" href="@routes.HomeController.onAnswerChosen(p.id)"
+        title="p.text">
+        @p.text
+        </a>
+
     }
-    </ol>
 }
