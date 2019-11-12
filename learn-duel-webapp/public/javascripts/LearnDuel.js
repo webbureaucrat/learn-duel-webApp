@@ -1,5 +1,5 @@
 function startTimer(duration, display) {
-    var timer = duration, minutes, seconds;
+    let timer = duration, minutes, seconds;
     setInterval(function () {
         //minutes = parseInt(timer / 60, 10)
         seconds = parseInt(timer % 60, 10);
@@ -17,12 +17,12 @@ function startTimer(duration, display) {
 }
 
 function openSources() {
-    var win = window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
+    let win = window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
     win.focus();
 }
 
 window.onload = function () {
-    var oneMinute = 60,
+    let oneMinute = 60,
         display = document.querySelector('#countdown');
     startTimer(oneMinute, display);
 
