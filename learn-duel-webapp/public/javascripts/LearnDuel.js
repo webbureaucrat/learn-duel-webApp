@@ -26,6 +26,21 @@ window.onload = function () {
         display = document.querySelector('#countdown');
     startTimer(oneMinute, display);
 
-    document.getElementById("openSources").addEventListener("click",openSources)
+    document.getElementById("openSources").addEventListener("click", openSources);
 };
+
+function onAnswerChosen(pid) {
+    let xhttp = new XMLHttpRequest();
+    console.log("onAnswerChosen");
+    xhttp.onreadystatechange = function () {
+        //ToDo don't know if status code is correct
+        if (this.readyState === 4 && this.status === 200) {
+            console.log("onreadystatechange");
+        $('.row').html(this.responseText);
+        }
+    };
+    xhttp.open("GET", "/onAnswerChosen?position=" + pid, true);
+    xhttp.send();
+}
+
 

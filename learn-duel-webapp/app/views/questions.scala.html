@@ -1,18 +1,18 @@
 @import de.htwg.se.learn_duel.model.Question
 @(question: Question)
 
-@main("Questions") {
-    <div class="row">
-        <div class="col align-self-center">
-            <h1 class="text-center">@question.text</h1>
+    @main("Questions") {
+        <div class="row" >
+            <div class="col align-self-center">
+                <h1 class="text-center">@question.text</h1>
 
-            <div>Remaining Time: <span id="countdown">60</span></div>
+                <div>Remaining Time: <span id="countdown">60</span></div>
 
-            <div class="list-group">
-            @for(p <- question.answers) {
-                <a href="@routes.HomeController.onAnswerChosen(p.id)" class="list-group-item list-group-item-action">@p.text</a>
-            }
+                <div class="list-group">
+                @for(p <- question.answers) {
+                    <button id="bla" type="button" onclick="onAnswerChosen(@p.text)" title="p.text">@p.text</button>
+                }
+                </div>
             </div>
         </div>
-    </div>
-}
+    }

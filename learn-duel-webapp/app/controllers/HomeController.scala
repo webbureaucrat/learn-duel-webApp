@@ -56,23 +56,26 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     Ok(views.html.questions(controllerServer.getGameState.currentQuestion.get))
   }
 
-  def nextQuestion() = Action {
+//  def nextQuestion() = Action {
+//
+//    if(counter > 0) {
+//      val question = controllerServer.getGameState.currentQuestion.get
+//      Ok(views.html.questions(question))
+//    } else {
+//      Ok(views.html.score(controllerServer.getGameState.players))
+//    }
+//  }
 
+  def onAnswerChosen(position: Int) = Action {
+    println("i am controller")
+    controllerServer.onAnswerChosen(position)
+    counter = counter -1
     if(counter > 0) {
       val question = controllerServer.getGameState.currentQuestion.get
       Ok(views.html.questions(question))
     } else {
       Ok(views.html.score(controllerServer.getGameState.players))
     }
-  }
-
-  def onAnswerChosen(position: Int) = Action {
-    println(controllerServer.getGameState.players.toString())
-    println(controllerServer.getGameState.currentQuestion.get)
-    controllerServer.onAnswerChosen(position)
-    println(controllerServer.getGameState.currentQuestion.get)
-    counter = counter -1
-    Redirect(routes.HomeController.nextQuestion())
   }
 
 //  // post

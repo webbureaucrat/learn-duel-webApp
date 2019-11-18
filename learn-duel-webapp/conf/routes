@@ -11,7 +11,7 @@ GET        /about                 controllers.HomeController.about()
 
 GET        /questions             controllers.HomeController.startQuestions()
 GET        /start                 controllers.HomeController.start()
-GET        /nextQuestion          controllers.HomeController.nextQuestion()
+#GET        /nextQuestion          controllers.HomeController.nextQuestion()
 GET        /onAnswerChosen        controllers.HomeController.onAnswerChosen(position :Int)
 
 # Map static resources from the /public folder to the /assets URL path
