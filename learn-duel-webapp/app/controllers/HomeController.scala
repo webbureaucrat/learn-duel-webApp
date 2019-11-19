@@ -10,6 +10,7 @@ import play.api.mvc._
 import de.htwg.se.learn_duel.controller.Controller
 import forms.PlayerForm
 import play.api.i18n.I18nSupport
+import play.api.libs.json.Json
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -53,7 +54,8 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     controllerServer.reset()
     counter = controllerServer.getGameState.questionCount()
     controllerServer.onStartGame()
-    Ok(views.html.questions(controllerServer.getGameState.currentQuestion.get))
+    val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
+    Ok(views.html.questions(question))
   }
 
 //  def nextQuestion() = Action {
@@ -71,7 +73,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     controllerServer.onAnswerChosen(position)
     counter = counter -1
     if(counter > 0) {
-      val question = controllerServer.getGameState.currentQuestion.get
+      val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
       Ok(views.html.questions(question))
     } else {
       Ok(views.html.score(controllerServer.getGameState.players))

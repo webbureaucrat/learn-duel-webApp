@@ -16,17 +16,14 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
-function openSources() {
-    let win = window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
-    win.focus();
-}
-
 window.onload = function () {
     let oneMinute = 60,
-        display = document.querySelector('#countdown');
+        display = $('#countdown');
     startTimer(oneMinute, display);
 
-    document.getElementById("openSources").addEventListener("click", openSources);
+    $("#openSources").click(function () {
+        window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
+    })
 };
 
 function onAnswerChosen(pid) {
@@ -36,7 +33,7 @@ function onAnswerChosen(pid) {
         //ToDo don't know if status code is correct
         if (this.readyState === 4 && this.status === 200) {
             console.log("onreadystatechange");
-        $('.row').html(this.responseText);
+            $('.row').html(this.responseText);
         }
     };
     xhttp.open("GET", "/onAnswerChosen?position=" + pid, true);

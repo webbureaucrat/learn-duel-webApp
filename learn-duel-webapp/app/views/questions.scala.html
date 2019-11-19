@@ -1,5 +1,6 @@
 @import de.htwg.se.learn_duel.model.Question
-@(question: Question)
+@import play.api.libs.json.JsValue
+@(question: JsValue)
 
     @main("Questions") {
         <div class="row" >
@@ -10,7 +11,7 @@
 
                 <div class="list-group">
                 @for(p <- question.answers) {
-                    <button id="bla" type="button" onclick="onAnswerChosen(@p.text)" title="p.text">@p.text</button>
+                    <button type="button" onclick="onAnswerChosen(@p.text)" title="p.text">@p.text</button>
                 }
                 </div>
             </div>
