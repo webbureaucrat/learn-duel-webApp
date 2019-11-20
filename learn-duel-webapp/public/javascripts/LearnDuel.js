@@ -4,11 +4,9 @@ function startTimer(duration, display) {
         //minutes = parseInt(timer / 60, 10)
         seconds = parseInt(timer % 60, 10);
 
-        //minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        //display.textContent = minutes + ":" + seconds;
-        display.textContent = seconds;
+        document.querySelector(display).textContent = seconds;
 
         if (--timer < 0) {
             timer = duration;
@@ -18,26 +16,46 @@ function startTimer(duration, display) {
 
 window.onload = function () {
     let oneMinute = 60,
-        display = $('#countdown');
+        display = "#countdown";
     startTimer(oneMinute, display);
 
     $("#openSources").click(function () {
         window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
     })
-};
+}
+;
 
-function onAnswerChosen(pid) {
-    let xhttp = new XMLHttpRequest();
-    console.log("onAnswerChosen");
-    xhttp.onreadystatechange = function () {
-        //ToDo don't know if status code is correct
-        if (this.readyState === 4 && this.status === 200) {
-            console.log("onreadystatechange");
-            $('.row').html(this.responseText);
+function onAnswerChosen_bla(pid) {
+    $.ajax({
+        url: "/onAnswerChosen?position=" + pid,
+        type: 'GET',
+        success: function (results) {
+            if (typeof (results) == "object") {
+                //display results if necessary
+                console.log(typeof (results));
+                displayQuestions(results);
+            } else {
+                console.log(typeof (results));
+                console.log(results);
+                $(".row").replaceWith(results);
+            }
+        },
+        async: true,
+        error: function (results) {
+            alert('Make call failed');
         }
-    };
-    xhttp.open("GET", "/onAnswerChosen?position=" + pid, true);
-    xhttp.send();
+    });
+}
+
+function displayQuestions(question) {
+    $(".text-center").text(question.text);
+    $(".list-group").empty().append([
+        "<button type='button' onclick='onAnswerChosen_bla(" + question.answers[0].id + ")' title='p.text'>" + question.answers[0].text + "</button>",
+        "<button type='button' onclick='onAnswerChosen_bla(" + question.answers[1].id + ")' title='p.text'>" + question.answers[1].text + "</button>",
+        "<button type='button' onclick='onAnswerChosen_bla(" + question.answers[2].id + ")' title='p.text'>" + question.answers[2].text + "</button>",
+        "<button type='button' onclick='onAnswerChosen_bla(" + question.answers[3].id + ")' title='p.text'>" + question.answers[3].text + "</button>"
+
+    ].join('\n'));
 }
 
 

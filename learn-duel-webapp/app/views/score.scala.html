@@ -5,12 +5,12 @@
     <div class="row">
         <div class="col align-self-center">
             <h2>Score!</h2>
-            <h5>@player(0).name</h5>
+            <h5>@player.head.name</h5>
 
 
             <p><img src="@routes.Assets.versioned("images/circle-check-3x.png")" class="figure-img img-fluid rounded .img-thumbnail" alt="..."> Correct Answers: </p>
             <ol class="list-unstyled">
-                @for(p <- player(0).correctAnswers) {
+                @for(p <- player.head.correctAnswers) {
                     <li>@p.text</li>
                 }
             </ol>
@@ -19,14 +19,14 @@
 
             <p> <img src="@routes.Assets.versioned("images/circle-x-3x.png")" class="figure-img img-fluid rounded .img-thumbnail" alt="..."> Wrong Answers: </p>
             <ol class="list-unstyled">
-            @for(p <- player(0).wrongAnswers) {
+            @for(p <- player.head.wrongAnswers) {
                 <li>@p.text</li>
                 <li>Korrekte Antwort ist : @p.answers.find(a => a.id == p.correctAnswer).get</li>
             }
             </ol>
 
             <p><strong>
-                Total Score: @player(0).points
+                Total Score: @player.head.points
             </strong></p>
         </div>
     </div>

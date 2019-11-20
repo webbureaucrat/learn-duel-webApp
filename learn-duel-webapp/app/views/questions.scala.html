@@ -1,18 +1,18 @@
-@import de.htwg.se.learn_duel.model.Question
 @import play.api.libs.json.JsValue
+@import play.api.libs.json.Json
 @(question: JsValue)
 
     @main("Questions") {
         <div class="row" >
             <div class="col align-self-center">
-                <h1 class="text-center">@question.text</h1>
+                <h1 class="text-center">Text to replace</h1>
 
                 <div>Remaining Time: <span id="countdown">60</span></div>
 
                 <div class="list-group">
-                @for(p <- question.answers) {
-                    <button type="button" onclick="onAnswerChosen(@p.text)" title="p.text">@p.text</button>
-                }
+                    <script>
+                            displayQuestions(@Html(Json.stringify(question)))
+                    </script>
                 </div>
             </div>
         </div>
