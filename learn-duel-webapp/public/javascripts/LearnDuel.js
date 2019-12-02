@@ -50,12 +50,20 @@ function onAnswerChosen_bla(pid) {
 function displayQuestions(question) {
     $(".text-center").text(question.text);
     $(".list-group").empty().append([
-        "<button type='button' onclick='onAnswerChosen_bla(" + question.answers[0].id + ")' title='p.text'>" + question.answers[0].text + "</button>",
-        "<button type='button' onclick='onAnswerChosen_bla(" + question.answers[1].id + ")' title='p.text'>" + question.answers[1].text + "</button>",
-        "<button type='button' onclick='onAnswerChosen_bla(" + question.answers[2].id + ")' title='p.text'>" + question.answers[2].text + "</button>",
-        "<button type='button' onclick='onAnswerChosen_bla(" + question.answers[3].id + ")' title='p.text'>" + question.answers[3].text + "</button>"
+        `<button type='button' onclick='onAnswerChosen_bla(${question.answers[0].id})' title='p.text'>${question.answers[0].text}</button>`,
+        `<button type='button' onclick='onAnswerChosen_bla(${question.answers[1].id})' title='p.text'>${question.answers[1].text}</button>`,
+        `<button type='button' onclick='onAnswerChosen_bla(${question.answers[2].id})' title='p.text'>${question.answers[2].text}</button>`,
+        `<button type='button' onclick='onAnswerChosen_bla(${question.answers[3].id})' title='p.text'>${question.answers[3].text}</button>`
 
     ].join('\n'));
+}
+
+function createWebSocket() {
+    // var socket = new WebSocket("ws://localhost:9000/socket");socket.onopen = function(){ … }
+    // socket.onmessage = function(message){ … }
+    // socket.onerror = function(){ … }
+    // socket.onclose = function(){ … }
+
 }
 
 
