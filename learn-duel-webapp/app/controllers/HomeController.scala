@@ -1,15 +1,18 @@
 package controllers
 
+import akka.actor.ActorSystem
+import akka.stream.Materializer
+import de.htwg.se.learn_duel.{Observer, UpdateAction, UpdateData}
 import javax.inject._
 import javax.inject.Inject
 import play.api.http.MimeTypes
 import play.api.routing._
-
 import play.api.mvc._
 import de.htwg.se.learn_duel.controller.Controller
 import forms.PlayerForm
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
+import play.api.libs.streams.ActorFlow
 import play.api.routing.JavaScriptReverseRouter
 
 /**
@@ -17,8 +20,11 @@ import play.api.routing.JavaScriptReverseRouter
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, controllerServer: Controller) extends AbstractController(cc) with I18nSupport {
+class HomeController @Inject()(cc: ControllerComponents, controllerServer: Controller)
+                              (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) with Observer with I18nSupport {
   var questionCount = 0;
+  controllerServer.addObserver(this);
+  var actor:WebSocketActor;
 
   /**
    * Create an Action to render an HTML page.
@@ -84,6 +90,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
       val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
       Ok(question)
     } else {
+      // Remove this in separate function
       Ok(views.html.score(controllerServer.getGameState.players))
     }
   }
@@ -94,5 +101,21 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
         routes.javascript.HomeController.onAnswerChosen,
       )
     ).as(MimeTypes.JAVASCRIPT)
+  }
+
+  def socket: WebSocket = WebSocket.accept[String, String] { request =>
+    ActorFlow.actorRef { out =>
+      println("Connect received")
+      WebSocketActorFactory.props(out, this)
+    }
+  }
+
+  override def update(updateData: UpdateData): Unit = {
+    updateData.getAction() match {
+      case UpdateAction.SHOW_RESULT => {
+        displayResult(updateData.getState().players)
+      }
+      case _ =>
+    }
   }
 }

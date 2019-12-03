@@ -57,13 +57,3 @@ function displayQuestions(question) {
 
     ].join('\n'));
 }
-
-function createWebSocket() {
-    // var socket = new WebSocket("ws://localhost:9000/socket");socket.onopen = function(){ … }
-    // socket.onmessage = function(message){ … }
-    // socket.onerror = function(){ … }
-    // socket.onclose = function(){ … }
-
-}
-
-
