@@ -11,7 +11,7 @@ import play.api.mvc._
 import de.htwg.se.learn_duel.controller.Controller
 import forms.PlayerForm
 import play.api.i18n.I18nSupport
-import play.api.libs.json.Json
+import play.api.libs.json.{JsObject, Json}
 import play.api.libs.streams.ActorFlow
 import play.api.routing.JavaScriptReverseRouter
 
@@ -24,8 +24,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
                               (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) with Observer with I18nSupport {
   var questionCount = 0;
   controllerServer.addObserver(this);
-  var actor:WebSocketActor;
-
+  var actor: List[WebSocketActor] = List();
   /**
    * Create an Action to render an HTML page.
    *
@@ -87,11 +86,13 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     countQuestion()
     controllerServer.onAnswerChosen(position)
     if (questionCount < controllerServer.getGameState.questionCount()) {
+      println("hallo")
       val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
       Ok(question)
     } else {
       // Remove this in separate function
-      Ok(views.html.score(controllerServer.getGameState.players))
+      controllerServer.requestUpdate()
+      Ok("")
     }
   }
 
@@ -101,6 +102,10 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
         routes.javascript.HomeController.onAnswerChosen,
       )
     ).as(MimeTypes.JAVASCRIPT)
+  }
+
+  def addWebsocket(actor: WebSocketActor): Unit = {
+    this.actor = this.actor :+ actor
   }
 
   def socket: WebSocket = WebSocket.accept[String, String] { request =>
@@ -113,7 +118,9 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
   override def update(updateData: UpdateData): Unit = {
     updateData.getAction() match {
       case UpdateAction.SHOW_RESULT => {
-        displayResult(updateData.getState().players)
+//        println(updateData.getAction().toString)
+        //        displayResult(updateData.getState().players)
+        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("SHOW_RESULT"))))
       }
       case _ =>
     }

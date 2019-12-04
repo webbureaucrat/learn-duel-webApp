@@ -1,6 +1,8 @@
+
 function connectWebSocket() {
+    console.log("connecting");
     var websocket = new WebSocket("ws://localhost:9000/websocket");
-    websocket.setTimeout
+    // websocket.setTimeout = 1;
 
     websocket.onopen = function(event) {
         console.log("Connected to Websocket");
@@ -15,8 +17,13 @@ function connectWebSocket() {
     };
 
     websocket.onmessage = function (gameState) {
-        if (typeof gameState.action === "SHOW_RESULT"){
-
+        // console.log(gameState.data.currentQuestionTime);
+        var jsonObject = JSON.parse(gameState.data);
+        if (jsonObject.action === "SHOW_RESULT"){
+            //get result
+            console.log("show result");
+            console.log(jsonObject.players);
+            $(".row").replaceWith(jsonObject.players);
         }
     };
 }

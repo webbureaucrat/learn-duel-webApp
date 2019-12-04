@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import akka.stream.Materializer
 import com.google.inject.Inject
 import javax.inject.Singleton
-import play.api.libs.json.JsValue
+import play.api.libs.json.{JsObject, JsValue}
 import play.api.libs.streams.ActorFlow
 import play.api.mvc.{AbstractController, ControllerComponents, WebSocket}
 
@@ -27,13 +27,18 @@ object WebSocketActorFactory {
 class WebSocketActor(out: ActorRef, homeController: HomeController) extends Actor {
 
 
+  override def preStart(): Unit = {
+    super.preStart()
+    homeController.addWebsocket(this)
+  }
+
   def receive: Receive = {
     case msg: String =>
       out ! ("I received your message: " + msg)
   }
 
-  def sendJsonToClient(json:JsValue ) = {
-    println("Received message from Controller")
-    out ! (json)
+  def sendJsonToClient(json:JsObject ) = {
+//    println("Received message from Controller")
+    out ! (json.toString())
   }
 }
