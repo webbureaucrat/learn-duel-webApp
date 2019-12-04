@@ -1,29 +1,15 @@
-// function startTimer(duration, display) {
-//     let timer = duration, minutes, seconds;
-//     setInterval(function () {
-//         //minutes = parseInt(timer / 60, 10)
-//         seconds = parseInt(timer % 60, 10);
-//
-//         seconds = seconds < 10 ? "0" + seconds : seconds;
-//
-//         document.querySelector(display).textContent = seconds;
-//
-//         if (--timer < 0) {
-//             timer = duration;
-//         }
-//     }, 1000);
-// }
-
 window.onload = function () {
-    let oneMinute = 60,
-        display = "#countdown";
-    // startTimer(oneMinute, display);
 
+    setTimer(60);
     $("#openSources").click(function () {
         window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
     })
+};
+
+function setTimer(seconds) {
+    // jquery selection does not work
+    document.querySelector('#countdown').textContent = seconds;
 }
-;
 
 function onAnswerChosen(pid) {
     $.ajax({
@@ -31,13 +17,8 @@ function onAnswerChosen(pid) {
         type: 'GET',
         success: function (results) {
             if (typeof (results) == "object") {
-                //display results if necessary
-                console.log(typeof (results));
-                displayQuestions(results);
             } else {
-                // console.log(typeof (results));
-                // console.log(results);
-                // $(".row").replaceWith(results);
+                $(".row").replaceWith(results);
             }
         },
         async: true,
@@ -58,7 +39,8 @@ function displayQuestions(question) {
     ].join('\n'));
 }
 
-$( document ).ready(function() {
-    console.log( "ready!" );
-    connectWebSocket();
+$(document).ready(function () {
+    if (window.location.pathname === '/start') {
+        connectWebSocket();
+    }
 });

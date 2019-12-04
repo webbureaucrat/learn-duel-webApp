@@ -6,7 +6,7 @@ function connectWebSocket() {
 
     websocket.onopen = function(event) {
         console.log("Connected to Websocket");
-    }
+    };
 
     websocket.onclose = function () {
         console.log('Connection with Websocket Closed!');
@@ -18,12 +18,22 @@ function connectWebSocket() {
 
     websocket.onmessage = function (gameState) {
         // console.log(gameState.data.currentQuestionTime);
-        var jsonObject = JSON.parse(gameState.data);
-        if (jsonObject.action === "SHOW_RESULT"){
+        let jsonObject = JSON.parse(gameState.data);
+        if (jsonObject.action === "TIMER_UPDATE") {
+            // jquery selection does not work
+            console.log(jsonObject.action.toString());
+            document.querySelector('#countdown').textContent = (document.querySelector('#countdown').textContent - 1).toString();
+        }
+        else if (jsonObject.action === "SHOW_RESULT"){
             //get result
             console.log("show result");
             console.log(jsonObject.players);
             $(".row").replaceWith(jsonObject.players);
         }
+        else if (jsonObject.action === "SHOW_GAME") {
+            setTimer(60);
+            displayQuestions(jsonObject.currentQuestion);
+        }
+
     };
 }
