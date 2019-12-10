@@ -116,17 +116,14 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
   override def update(updateData: UpdateData): Unit = {
     println(updateData.getAction())
     updateData.getAction() match {
-      case UpdateAction.TIMER_UPDATE => {
+      case UpdateAction.TIMER_UPDATE =>
         actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("TIMER_UPDATE"))))
-      }
-      case UpdateAction.SHOW_GAME => {
+      case UpdateAction.SHOW_GAME =>
         actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("SHOW_GAME"))))
-      }
-      case UpdateAction.SHOW_RESULT => {
-//        println(updateData.getAction().toString)
+      case UpdateAction.SHOW_RESULT =>
+        //        println(updateData.getAction().toString)
         //        displayResult(updateData.getState().players)
-//        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("SHOW_RESULT"))))
-      }
+        //        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("SHOW_RESULT"))))
       case _ =>
     }
   }
