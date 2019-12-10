@@ -9,6 +9,7 @@ import play.api.http.MimeTypes
 import play.api.routing._
 import play.api.mvc._
 import de.htwg.se.learn_duel.controller.Controller
+import de.htwg.se.learn_duel.model.Player
 import forms.PlayerForm
 import play.api.i18n.I18nSupport
 import play.api.libs.json.{JsObject, Json}
@@ -81,6 +82,9 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
   //      Ok(views.html.score(controllerServer.getGameState.players))
   //    }
   //  }
+  def viewScore(): Action[AnyContent] = Action {
+    Ok(views.html.score(controllerServer.getGameState.players))
+  }
 
   def onAnswerChosen(position: Int): Action[AnyContent] = Action {
     countQuestion()
@@ -90,9 +94,13 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
       Ok(question)
     } else {
       // Remove this in separate function
-      Ok(views.html.score(controllerServer.getGameState.players))
+      //Ok(views.html.score(controllerServer.getGameState.players))
+      //Redirect(controllers.routes.HomeController.)
+      Redirect(routes.HomeController.score())
     }
   }
+
+
 
   def javascriptRoutes: Action[AnyContent] = Action { implicit request =>
     Ok(

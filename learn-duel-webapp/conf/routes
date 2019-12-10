@@ -8,7 +8,7 @@ GET        /                      controllers.HomeController.about()
 
 GET        /players               controllers.HomeController.viewPlayers()
 GET        /about                 controllers.HomeController.about()
-
+GET        /score                 controllers.HomeController.viewScore()
 GET        /questions             controllers.HomeController.startQuestions()
 GET        /start                 controllers.HomeController.start()
 #GET        /nextQuestion          controllers.HomeController.nextQuestion()

@@ -18,7 +18,12 @@ function onAnswerChosen(pid) {
         success: function (results) {
             if (typeof (results) == "object") {
             } else {
-                $(".row").replaceWith(results);
+                //$(".").replaceWith(results);
+                html = $.parseHTML(results);
+                html.
+                document.open();
+                document.write(results);
+                document.close();
             }
         },
         async: true,
