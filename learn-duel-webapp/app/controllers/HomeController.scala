@@ -96,7 +96,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
       // Remove this in separate function
       //Ok(views.html.score(controllerServer.getGameState.players))
       //Redirect(controllers.routes.HomeController.)
-      Redirect(routes.HomeController.score())
+      Redirect(routes.HomeController.viewScore())
     }
   }
 
@@ -131,7 +131,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
       case UpdateAction.SHOW_RESULT =>
         //        println(updateData.getAction().toString)
         //        displayResult(updateData.getState().players)
-        //        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("SHOW_RESULT"))))
+                actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("SHOW_RESULT"))))
       case _ =>
     }
   }

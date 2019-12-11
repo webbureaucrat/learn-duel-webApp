@@ -2,18 +2,22 @@
 @import play.api.libs.json.Json
 @(question: JsValue)
 
-    @main("Questions") {
-        <div class="row" id="questions">
-            <div class="col align-self-center">
-                <h1 class="text-center">Text to replace</h1>
+@main("Questions") {
+    <script src="https://unpkg.com/@@polymer/paper-button@@next/paper-button.js?module" type="module" ></script>
+            <div class="row" id="questions">
+                <div class="col align-self-center">
+                    <h1 class="text-center">Text to replace</h1>
 
-                <div>Remaining Time: <span id="countdown">60</span></div>
+                    <div>
+                        Remaining Time:
+                        <span id="countdown">60</span>
+                    </div>
 
-                <div class="list-group">
-                    <script>
+                    <div class="list-group">
+                        <script>
                             displayQuestions(@Html(Json.stringify(question)))
                     </script>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+}

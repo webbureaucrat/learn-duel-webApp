@@ -16,30 +16,34 @@ function onAnswerChosen(pid) {
         url: "/onAnswerChosen?position=" + pid,
         type: 'GET',
         success: function (results) {
-            if (typeof (results) == "object") {
-            } else {
-                //$(".").replaceWith(results);
-                html = $.parseHTML(results);
-                html.
-                document.open();
-                document.write(results);
-                document.close();
-            }
+            // if (typeof (results) == "object") {
+            // }
+            // else {
+            //     window.location.href = results.redirect;
+            //     // $(".row").replaceWith(results);
+            //     // html = $.parseHTML(results);
+            //     // html.
+            //     // document.open();
+            //     // document.write(results);
+            //     // document.close();
+            //     //
+            // }
         },
         async: true,
         error: function (results) {
-            alert('Make call failed');
+            // alert('Make call failed');
         }
     });
 }
 
 function displayQuestions(question) {
+
     $(".text-center").text(question.text);
     $(".list-group").empty().append([
-        `<button type='button' onclick='onAnswerChosen(${question.answers[0].id})' title='p.text'>${question.answers[0].text}</button>`,
-        `<button type='button' onclick='onAnswerChosen(${question.answers[1].id})' title='p.text'>${question.answers[1].text}</button>`,
-        `<button type='button' onclick='onAnswerChosen(${question.answers[2].id})' title='p.text'>${question.answers[2].text}</button>`,
-        `<button type='button' onclick='onAnswerChosen(${question.answers[3].id})' title='p.text'>${question.answers[3].text}</button>`
+        `<paper-button raised onclick='onAnswerChosen(${question.answers[0].id})' title='p.text'>${question.answers[0].text}</paper-button>`,
+        `<paper-button raised onclick='onAnswerChosen(${question.answers[1].id})' title='p.text'>${question.answers[1].text}</paper-button>`,
+        `<paper-button raised onclick='onAnswerChosen(${question.answers[2].id})' title='p.text'>${question.answers[2].text}</paper-button>`,
+        `<paper-button raised onclick='onAnswerChosen(${question.answers[3].id})' title='p.text'>${question.answers[3].text}</paper-button>`
 
     ].join('\n'));
 }

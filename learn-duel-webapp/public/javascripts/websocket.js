@@ -26,9 +26,11 @@ function connectWebSocket() {
         }
         else if (jsonObject.action === "SHOW_RESULT"){
             //get result
-            console.log("show result");
-            console.log(jsonObject.players);
-            $(".row").replaceWith(jsonObject.players);
+            // console.log("show result");
+            // console.log(jsonObject.players);
+
+            // $(".row").replaceWith(jsonObject.players);
+            window.location = "/score";
         }
         else if (jsonObject.action === "SHOW_GAME") {
             setTimer(60);
