@@ -3,8 +3,6 @@ organization := "com.webbureaucrat"
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy)
-
 scalaVersion := "2.12.7"
 
 libraryDependencies += guice
@@ -16,11 +14,24 @@ libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3
 // Adds additional packages into conf/routes
 // play.sbt.routes.RoutesKeys.routesImport += "com.webbureaucrat.binders._"
 
-// The commands that triggers production build when running Webpack, as in `webpack -p`.
-Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage")
-
-// The location of the webpack binary. For windows, it might be `webpack.cmd`.
-Assets / VueKeys.vuefy / VueKeys.webpackBinary := "./node_modules/.bin/webpack"
-
-// The location of the webpack configuration.
-Assets / VueKeys.vuefy / VueKeys.webpackConfig := "./webpack.config.js"
+lazy val root = (project in file("."))
+  .enablePlugins(PlayScala, SbtWeb, SbtVuefy)
+  .settings(
+    scalaVersion := "2.12.8",
+    libraryDependencies ++= Seq(
+      guice
+    ),
+    Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage"),
+    Assets / VueKeys.vuefy / VueKeys.webpackBinary := {
+      // Detect windows
+      if (sys.props.getOrElse("os.name", "").toLowerCase.contains("win")) {
+        (new File(".") / "node_modules" / ".bin" / "webpack.cmd").getAbsolutePath
+      } else {
+        (new File(".") / "node_modules" / ".bin" / "webpack").getAbsolutePath
+      }
+    },
+    Assets / VueKeys.vuefy / VueKeys.webpackConfig := (new File(".") / "webpack.config.js").getAbsolutePath,
+    // All non-entry-points components, which are not included directly in HTML, should have the prefix `_`.
+    // Webpack shouldn't compile non-entry-components directly. It's wasteful.
+    Assets / VueKeys.vuefy / excludeFilter := "_*"
+  )
