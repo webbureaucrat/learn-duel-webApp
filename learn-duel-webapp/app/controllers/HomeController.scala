@@ -55,12 +55,6 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
 
   // GET
   def startQuestions(): Action[AnyContent] = Action {
-    //    implicit request =>
-    //      val formData: PlayerForm = PlayerForm.form.bindFromRequest.get
-    //      println(formData.name.toString)
-    //      addPlayer(formData.name)
-    //      //println(player)
-    ////      Ok(views.html.questions())
     Redirect(routes.HomeController.start())
   }
 
@@ -69,7 +63,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     controllerServer.onStartGame()
     resetCount()
     val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-    Ok(views.html.questions(question))
+    Ok(question)
   }
 
   //  def nextQuestion() = Action {
@@ -116,6 +110,9 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
   override def update(updateData: UpdateData): Unit = {
     println(updateData.getAction())
     updateData.getAction() match {
+      case UpdateAction.BEGIN => {
+        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("BEGIN"))))
+      }
       case UpdateAction.TIMER_UPDATE => {
         actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("TIMER_UPDATE"))))
       }
