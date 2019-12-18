@@ -47,7 +47,7 @@ module.exports = {
     extensions: ['.ts', '.js', '.vue']
   },
   performance: {
-    hints: 'error',
+    hints: false,
     maxAssetSize: 1500000,
     maxEntrypointSize: 1500000,
     assetFilter: function(assetFilename) {

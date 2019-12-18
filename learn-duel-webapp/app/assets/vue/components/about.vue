@@ -1,5 +1,5 @@
 <template>
-    <div class="greetings-form">
+    <div class="container">
         <!--    <h1>{{ greeting }}</h1>-->
         <!--    <p>Value: {{ toggleText }}</p>-->
         <!--    <our-button ref="button" @click="toggle">Toggle button</our-button>-->
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-    // import "./javascripts/LearnDuel.js"
+    import 'bootstrap';
 
     export default {
         name: "about",
@@ -88,7 +88,6 @@
             openSources: function () {
                 window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
             }
-
         }
     }
 </script>

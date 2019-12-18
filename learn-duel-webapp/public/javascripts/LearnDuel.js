@@ -36,7 +36,7 @@ $(document).ready(function () {
         render: function (html) {
             return html(MainContent.default, {
                 props: {
-                    show: "result"
+                    show: "about"
                 }
             });
         }

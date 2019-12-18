@@ -9,16 +9,16 @@
             </button>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active" >
-                        <a class="nav-link" href="#">Play
-                            <span class="sr-only">(current)</span>
+                    <li class="nav-item" >
+                        <a class="nav-link" v-on:click="play">Play
+                            <!--<span class="sr-only">(current)</span>-->
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">About</a>
+                        <a class="nav-link" v-on:click="about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
+                        <a class="nav-link" v-on:click="login">Login</a>
                     </li>
                 </ul>
             </div>
@@ -28,7 +28,21 @@
 
 <script>
     export default {
-        name: "nav-bar"
+        name: "nav-bar", 
+        methods: {
+            play: function () {
+                this.$emit('clicked', 'question')
+                // this.$emit('update:show', 'question')
+            },
+            about: function () {
+                this.$emit('clicked', 'about')
+                // this.$emit('update:show', 'about')
+            },
+            login: function () {
+                this.$emit('clicked', 'login')
+                // this.$emit('update:show', 'login')
+            }
+        }
     }
 </script>
 

@@ -1,11 +1,13 @@
 <template>
-    <div class="row">
-        <div class="col align-self-center">
-            <h1 class="text-center">Text to replace</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col align-self-center">
+                <h1 class="text-center">Text to replace</h1>
 
-            <div>Remaining Time: <span id="countdown">60</span></div>
+                <div>Remaining Time: <span id="countdown">60</span></div>
 
-            <div class="list-group"></div>
+                <div class="list-group"></div>
+            </div>
         </div>
     </div>
 </template>
