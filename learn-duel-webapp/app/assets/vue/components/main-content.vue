@@ -13,17 +13,22 @@
     import About from "./about";
     import Question from "./question";
     import Result from "./result";
-
+    import {startGame} from "../../../../public/javascripts/LearnDuel";
+    import {connectWebSocket} from "../../../../public/javascripts/websocket";
 
     export default {
         name: "main-content",
         components: {Result, Question, About, NavBar},
         props: ['show'],
         methods:{
+            startGame :startGame,
+            connectWebSocket: connectWebSocket,
             onClickChild (value) {
                 switch(value){
                     case 'question':
                         this.show = 'question';
+                        startGame();
+                        connectWebSocket();
                         break;
                     case 'about':
                         this.show = 'about';
@@ -35,6 +40,8 @@
                 }
                 this.$forceUpdate();
             }
+
+
         }
     }
 

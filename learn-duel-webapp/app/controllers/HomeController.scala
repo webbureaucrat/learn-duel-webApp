@@ -66,16 +66,6 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     Ok(question)
   }
 
-  //  def nextQuestion() = Action {
-  //
-  //    if(counter > 0) {
-  //      val question = controllerServer.getGameState.currentQuestion.get
-  //      Ok(views.html.questions(question))
-  //    } else {
-  //      Ok(views.html.score(controllerServer.getGameState.players))
-  //    }
-  //  }
-
   def onAnswerChosen(position: Int): Action[AnyContent] = Action {
     countQuestion()
     controllerServer.onAnswerChosen(position)
@@ -92,6 +82,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     Ok(
       JavaScriptReverseRouter("jsRoutes")(
         routes.javascript.HomeController.onAnswerChosen,
+        routes.javascript.HomeController.startQuestions,
       )
     ).as(MimeTypes.JAVASCRIPT)
   }

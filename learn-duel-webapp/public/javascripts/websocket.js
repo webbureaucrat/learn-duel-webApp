@@ -1,5 +1,8 @@
+import {setTimer, displayQuestions} from './LearnDuel';
 
 function connectWebSocket() {
+
+
     console.log("connecting");
     var websocket = new WebSocket("ws://localhost:9000/websocket");
     // websocket.setTimeout = 1;
@@ -31,9 +34,11 @@ function connectWebSocket() {
             $(".row").replaceWith(jsonObject.players);
         }
         else if (jsonObject.action === "SHOW_GAME") {
-            setTimer(60);
             displayQuestions(jsonObject.currentQuestion);
+            document.querySelector('#countdown').textContent = (60).toString();
         }
 
     };
 }
+
+export {connectWebSocket};

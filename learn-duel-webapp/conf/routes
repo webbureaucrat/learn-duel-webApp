@@ -11,7 +11,6 @@ GET        /about                 controllers.HomeController.about()
 
 GET        /questions             controllers.HomeController.startQuestions()
 GET        /start                 controllers.HomeController.start()
-#GET        /nextQuestion          controllers.HomeController.nextQuestion()
 GET        /onAnswerChosen        controllers.HomeController.onAnswerChosen(position :Int)
 
 GET         /assets/javascripts/routes      controllers.HomeController.javascriptRoutes
