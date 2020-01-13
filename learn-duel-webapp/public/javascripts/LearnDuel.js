@@ -5,12 +5,12 @@ window.onload = function () {
     })
 };
 
-function setTimer(seconds) {
-    // jquery selection does not work
-    // if (window.location.pathname === '/start') {
-        document.querySelector('#countdown').textContent = seconds;
-    // }
-}
+// function setTimer(seconds) {
+//     // jquery selection does not work
+//     // if (window.location.pathname === '/start') {
+//         document.querySelector('#countdown').textContent = seconds;
+//     // }
+// }
 
 function onAnswerChosen(pid) {
     $.ajax({
@@ -64,4 +64,4 @@ $(document).ready(function () {
     })
 });
 
-export {displayQuestions, startGame, onAnswerChosen, setTimer};
+export {displayQuestions, startGame, onAnswerChosen};

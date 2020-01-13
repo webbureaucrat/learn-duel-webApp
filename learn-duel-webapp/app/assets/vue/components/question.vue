@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {onAnswerChosen, setTimer} from "../../../../public/javascripts/LearnDuel";
+    import {onAnswerChosen} from "../../../../public/javascripts/LearnDuel";
 
 
     export default {
@@ -26,7 +26,6 @@
         props: "question-data",
         methods: {
             onAnswerChosen: onAnswerChosen,
-            setTimer: setTimer,
         }
     }
 
