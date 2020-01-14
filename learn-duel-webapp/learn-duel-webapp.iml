@@ -11,6 +11,8 @@
       <sourceFolder url="file://$MODULE_DIR$/target/scala-2.12/twirl/main" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/target/scala-2.12/routes/main" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/public" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/app/assets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/target/web/vuefy/main" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/target/scala-2.13" />
       <excludeFolder url="file://$MODULE_DIR$/target/streams" />
