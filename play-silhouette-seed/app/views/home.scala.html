@@ -8,6 +8,7 @@
 @import com.mohiva.play.silhouette.impl.providers.GoogleTotpInfo
 @import views.html.helper._
 
+
 @this()(implicit webJarsUtil: WebJarsUtil, assets: AssetsFinder)
 @(user: models.User, totpInfoOpt: Option[GoogleTotpInfo], totpDataOpt: Option[(Form[Data], GoogleTotpCredentials)] = None)(implicit request: RequestHeader, messages: Messages)
 
