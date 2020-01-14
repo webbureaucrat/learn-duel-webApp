@@ -15,6 +15,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/png" href="@assets.path("images/favicon.png")">
         <title>@title</title>
+        <script @{CSPNonce.attr} src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <link @{CSPNonce.attr} href="//fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet">
         <link @{CSPNonce.attr} href="//cdnjs.cloudflare.com/ajax/libs/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet">
         @webJarsUtil.locate("bootstrap.min.css").css(CSPNonce.attrMap)
