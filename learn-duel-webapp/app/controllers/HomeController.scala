@@ -40,6 +40,11 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     questionCount = questionCount + 1
   }
 
+  def offline(): Action[AnyContent] = Action {
+    implicit request: Request[AnyContent] =>
+      Ok(views.html.offline())
+  }
+
   def resetCount(): Unit = {
     questionCount = 0
   }

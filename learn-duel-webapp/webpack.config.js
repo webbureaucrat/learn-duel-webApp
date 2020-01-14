@@ -4,6 +4,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
+ // mode: 'production',
   plugins: [
     new VueLoaderPlugin()
   ],
@@ -54,7 +55,16 @@ module.exports = {
       return assetFilename.endsWith('.js');
     }
   },
-  devtool: ''
+  devtool: '',
+
+  devServer: {
+    compress: true,
+    host: 'localhost',
+    https: true,
+    open: true,
+    overlay: true,
+    port: 9000
+  }
 };
 
 // If the arguments includes `-p`, it means we are doing the production build.
