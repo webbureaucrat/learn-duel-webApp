@@ -1,0 +1,21 @@
+{
+  "dir": "ltr",
+  "scope": "/",
+  "name": "Learn  Duel",
+  "short_name": "Learn Duel",
+  "icons": [
+    {
+    "src": "assets/images/favicon.png",
+    "sizes": "728x508",
+    "type": "image/png"
+    }
+  ],
+  "start_url": "/", // <- /vueChess if vue componentes should be enabled
+  "display": "standalone",
+  "background_color": "transparent",
+  "theme_color": "transparent",
+  "description": "Learn Duel Webapp WS 19/20'",
+  "orientation": "any",
+  "related_applications": [],
+  "prefer_related_applications": false
+}
