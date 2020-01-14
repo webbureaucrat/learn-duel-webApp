@@ -15,16 +15,36 @@ import play.api.libs.json.{JsObject, Json}
 import play.api.libs.streams.ActorFlow
 import play.api.routing.JavaScriptReverseRouter
 
+import com.mohiva.play.silhouette.api.actions.SecuredRequest
+import com.mohiva.play.silhouette.
+import com.mohiva.play.silhouette.api.{ HandlerResult, Silhouette }
+import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
+import com.mohiva.play.silhouette.impl.providers.GoogleTotpInfo
+import org.webjars.play.WebJarsUtil
+import play.api.i18n.I18nSupport
+import utils.auth.DefaultEnv
+
+import models.User
+
+import scala.concurrent.{ ExecutionContext, Future }
+
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, controllerServer: Controller)
-                              (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc) with Observer with I18nSupport {
+class HomeController @Inject()(cc: ControllerComponents, controllerServer: Controller,
+                               silhouette: Silhouette[DefaultEnv],
+                               authInfoRepository: AuthInfoRepository)
+                              (implicit system: ActorSystem,
+                               mat: Materializer, ec: ExecutionContext,
+                               webJarsUtil: WebJarsUtil,
+                               assets: AssetsFinder)
+                              extends AbstractController(cc) with Observer with I18nSupport {
   var questionCount = 0;
   controllerServer.addObserver(this);
   var actor: List[WebSocketActor] = List();
+
   /**
    * Create an Action to render an HTML page.
    *
@@ -40,66 +60,84 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
     questionCount = questionCount + 1
   }
 
-  def offline(): Action[AnyContent] = Action {
+  def offline() = silhouette.UnsecuredAction.async {
     implicit request: Request[AnyContent] =>
-      Ok(views.html.offline())
+      Future.successful(Ok(views.html.offline()))
   }
 
   def resetCount(): Unit = {
     questionCount = 0
   }
 
-  def about(): Action[AnyContent] = Action {
-    //val menuAsText = controllerServer.menuToText
-    Ok(views.html.about())
+  def about(): Action[AnyContent] = silhouette.SecuredAction.async {
+    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+        Ok(views.html.about(request.identity, totpInfoOpt))
+      }
   }
 
-  def viewPlayers(): Action[AnyContent] = Action { implicit request =>
-    Ok(views.html.players(PlayerForm.form))
-  }
+  //  def viewPlayers(): Action[AnyContent] = silhouette.SecuredAction.async {
+  //    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+  //      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+  //    Ok(views.html.players(PlayerForm.form))
+  //  }
 
   // GET
-  def startQuestions(): Action[AnyContent] = Action {
-    Redirect(routes.HomeController.start())
-  }
-
-  def start(): Action[AnyContent] = Action {
-    controllerServer.reset()
-    controllerServer.onStartGame()
-    resetCount()
-    val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-    Ok(question)
-  }
-
-  def onAnswerChosen(position: Int): Action[AnyContent] = Action {
-    countQuestion()
-    controllerServer.onAnswerChosen(position)
-    if (questionCount < controllerServer.getGameState.questionCount()) {
-      val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-      Ok(question)
-    } else {
-      // Remove this in separate function
-      Ok(views.html.score(controllerServer.getGameState.players))
+  def startQuestions(): Action[AnyContent] = silhouette.SecuredAction.async {implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+      Redirect(routes.HomeController.start())
     }
   }
 
-  def javascriptRoutes: Action[AnyContent] = Action { implicit request =>
-    Ok(
-      JavaScriptReverseRouter("jsRoutes")(
-        routes.javascript.HomeController.onAnswerChosen,
-        routes.javascript.HomeController.startQuestions,
-      )
-    ).as(MimeTypes.JAVASCRIPT)
+  def start(): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+      controllerServer.reset()
+      controllerServer.onStartGame()
+      resetCount()
+      val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
+      Ok(question)
+    }
+  }
+
+  def onAnswerChosen(position: Int): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+      countQuestion()
+      controllerServer.onAnswerChosen(position)
+      if (questionCount < controllerServer.getGameState.questionCount()) {
+        val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
+        Ok(question)
+      } else {
+        // Remove this in separate function
+        Ok(views.html.score(controllerServer.getGameState.players, request.identity, totpInfoOpt))
+      }
+    }
+  }
+
+  def javascriptRoutes: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+      Ok(
+        JavaScriptReverseRouter("jsRoutes")(
+          routes.javascript.HomeController.onAnswerChosen,
+          routes.javascript.HomeController.startQuestions,
+        )
+      ).as(MimeTypes.JAVASCRIPT)
+    }
   }
 
   def addWebsocket(actor: WebSocketActor): Unit = {
     this.actor = this.actor :+ actor
   }
 
-  def socket: WebSocket = WebSocket.accept[String, String] { request =>
-    ActorFlow.actorRef { out =>
-      println("Connect received")
-      WebSocketActorFactory.props(out, this)
+  def socket: WebSocket = WebSocket.acceptOrResult[String, String] { request =>
+    implicit val req = Request(request, AnyContentAsEmpty)
+    silhouette.SecuredRequestHandler { securedRequest =>
+      Future.successful(HandlerResult(Ok, Some(securedRequest.identity)))
+    }.map {
+      case HandlerResult(r, Some(user)) => Right(ActorFlow.actorRef { out =>
+        println("Connect received")
+        WebSocketActorFactory.props(out, this)
+      })
+      case HandlerResult(r, None) => Left(r)
     }
   }
 
