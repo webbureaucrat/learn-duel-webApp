@@ -10,7 +10,7 @@
     "type": "image/png"
     }
   ],
-  "start_url": "/", // <- /vueChess if vue componentes should be enabled
+  "start_url": "/", 
   "display": "standalone",
   "background_color": "transparent",
   "theme_color": "transparent",
