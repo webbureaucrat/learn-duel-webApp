@@ -17,160 +17,80 @@
 }
 
 @main(messages("home.title"), Some(user)) {
-    <div class="row">
-        <div class="col align-self-center">
-            <h3 class="display-3">Learn Duel</h3>
 
-
-            <p class="lead">The game Learn Duel is based on QuizDuel and works in a similar fashion, but with a new twist:
-                <br />
-                You play with questions based on your school or study assignments.
-                <br>
-            </p>
-
-            <figure class="figure">
-                <img src="@assets.path("images/game.PNG")" class="figure-img img-fluid rounded .img-thumbnail" alt="...">
-                <figcaption class="figure-caption text-center">View of Learn Duel gameplay.</figcaption>
-            </figure>
-
-            <br>
-            <h4> How to play:</h4>
-
-            <p><small>
-                First you have to type in your player name(s).
-                <br />
-                If you are playing alone, the answers can be selected with the mouse or the keys 1-4.
-                <br />In multiplayer mode player 1 can specify his answer with the keys 1-4 and\nplayer 2 with the keys 6-9.
-                <br /><br />
-                By clicking "Play Learn Duel", you enter the game mode.
-                <br />
-                You will have 60 seconds to answer each question.
-            </small></p>
-            <button class="btn btn-outline-secondary" id="play-game">Play the game!</button>
-            <br>
-            <h4>Possible features in future:</h4>
-
-            <ul class="list-unstyled">
-                <li>defining own questions</li>
-                <li>increase max player count</li>
-            </ul>
-            <br>
-
-            <h4>Supported Browsers:</h4>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>Edge</td>
-                        <td>Chrome</td>
-                        <td>Safari</td>
-                        <td>Firefox</td>
-                        <td>Opera</td>
-                    </tr>
-                    <tr>
-                        <td>	&#10004;</td>
-                        <td>	&#10004;</td>
-                        <td>	&#10004;</td>
-                        <td>	&#10004;</td>
-                        <td>	&#10004;</td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            <h5>License:</h5>
-            <p><small>This work is licensed under the terms of the MIT license. For a copy, see <a href="https://opensource.org/licenses/MIT">https://opensource.org/licenses/MIT</a> .
-                <br /><br />
-                If you would like to contribute, you can access our sources under following GitHub repository.
-            </small></p>
-            <button class="btn btn-outline-secondary" id="openSources">Show Sources</button>
-                <!--<p><small>
-                      <a href="https://github.com/webbureaucrat/learn-duel-webApp" target="_blank" rel="noopener">Learn-Duel</a>
-                  </small></p>-->
+    <div class="user col-md-6 col-md-offset-3">
+        <div class="row">
+            <hr class="col-md-12" />
+            <h4 class="col-md-8">@messages("welcome.signed.in")</h4>
+            <div class="col-md-4 text-right">
+                <img src="@user.avatarURL.getOrElse(assets.path("images/silhouette.png"))" height="40px" />
+            </div>
+            <hr class="col-md-12" />
+        </div>
+        <div class="row data">
+            <div class="col-md-12">
+                <div class="row">
+                    <p class="col-md-6"><strong>@messages("first.name")
+                        :</strong></p><p class="col-md-6">@user.firstName.getOrElse("None")</p>
+                </div>
+                <div class="row">
+                    <p class="col-md-6"><strong>@messages("last.name")
+                        :</strong></p><p class="col-md-6">@user.lastName.getOrElse("None")</p>
+                </div>
+                <div class="row">
+                    <p class="col-md-6"><strong>@messages("full.name")
+                        :</strong></p><p class="col-md-6">@user.fullName.getOrElse("None")</p>
+                </div>
+                <div class="row">
+                    <p class="col-md-6"><strong>@messages("email")
+                        :</strong></p><p class="col-md-6">@user.email.getOrElse("None")</p>
+                </div>
+            </div>
+        </div>
+        <div class="row data">
+        @if(totpInfoOpt.nonEmpty) {
+            <h2>@messages("totp.enabled.title")</h2>
+            <a href="@controllers.routes.TotpController.disableTotp">
+                <input type="button" class="btn btn-primary" value='@messages("totp.disable")'/>
+            </a>
+        } else {
+            @totpDataOpt match {
+                case Some((totpForm, credentials)) => {
+                    <h2>@messages("totp.enabling.title")</h2>
+                    <h2>@messages("totp.shared.key.title")</h2>
+                    <img src="@credentials.qrUrl"/>
+                    <h2>@messages("totp.recovery.tokens.title")</h2>
+                    <ul>
+                    @for(scratchCodePlain <- credentials.scratchCodesPlain) {
+                        <li>@{
+                            scratchCodePlain
+                        }</li>
+                    }
+                    </ul>
+                    @helper.form(action = controllers.routes.TotpController.enableTotpSubmit()) {
+                        @helper.CSRF.formField
+                        @b4.text(totpForm("verificationCode"), '_hiddenLabel -> messages("totp.verification.code    "), 'placeholder -> messages("totp.verification.code"), 'autocomplete -> "off", 'class -> "form-control input-lg")
+                        @b4.hidden(totpForm("sharedKey"))
+                        @helper.repeat(totpForm("scratchCodes"), min = 1) { scratchCodeField =>
+                            @b4.hidden(scratchCodeField("hasher"))
+                            @b4.hidden(scratchCodeField("password"))
+                            @b4.hidden(scratchCodeField("salt"))
+                        }
+                        <div class="form-group">
+                            <div>
+                                <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("totp.verify")</button>
+                            </div>
+                        </div>
+                    }
+                }
+                case None => {
+                    <h2>@messages("totp.disabled.title")</h2>
+                    <a href="@controllers.routes.TotpController.enableTotp">
+                        <input type="button" class="btn btn-primary" value='@messages("totp.enable")'/>
+                    </a>
+                }
+            }
+        }
         </div>
     </div>
-    @webJarsUtil.locate("jquery.min.js").script(CSPNonce.attrMap)
-    @webJarsUtil.locate("bootstrap.min.js").script(CSPNonce.attrMap)
-     <script>
-        $( "#openSources" ).click(function() {
-          window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
-        });
-
-        $( "#play-game" ).click(function() {
-          // TODO
-        });
-    </script>
-@*    <div class="user col-md-6 col-md-offset-3">*@
-@*        <div class="row">*@
-@*            <hr class="col-md-12" />*@
-@*            <h4 class="col-md-8">@messages("welcome.signed.in")</h4>*@
-@*            <div class="col-md-4 text-right">*@
-@*                <img src="@user.avatarURL.getOrElse(assets.path("images/silhouette.png"))" height="40px" />*@
-@*            </div>*@
-@*            <hr class="col-md-12" />*@
-@*        </div>*@
-@*        <div class="row data">*@
-@*            <div class="col-md-12">*@
-@*                <div class="row">*@
-@*                    <p class="col-md-6"><strong>@messages("first.name")*@
-@*                        :</strong></p><p class="col-md-6">@user.firstName.getOrElse("None")</p>*@
-@*                </div>*@
-@*                <div class="row">*@
-@*                    <p class="col-md-6"><strong>@messages("last.name")*@
-@*                        :</strong></p><p class="col-md-6">@user.lastName.getOrElse("None")</p>*@
-@*                </div>*@
-@*                <div class="row">*@
-@*                    <p class="col-md-6"><strong>@messages("full.name")*@
-@*                        :</strong></p><p class="col-md-6">@user.fullName.getOrElse("None")</p>*@
-@*                </div>*@
-@*                <div class="row">*@
-@*                    <p class="col-md-6"><strong>@messages("email")*@
-@*                        :</strong></p><p class="col-md-6">@user.email.getOrElse("None")</p>*@
-@*                </div>*@
-@*            </div>*@
-@*        </div>*@
-@*        <div class="row data">*@
-@*        @if(totpInfoOpt.nonEmpty) {*@
-@*            <h2>@messages("totp.enabled.title")</h2>*@
-@*            <a href="@controllers.routes.TotpController.disableTotp">*@
-@*                <input type="button" class="btn btn-primary" value='@messages("totp.disable")'/>*@
-@*            </a>*@
-@*        } else {*@
-@*            @totpDataOpt match {*@
-@*                case Some((totpForm, credentials)) => {*@
-@*                    <h2>@messages("totp.enabling.title")</h2>*@
-@*                    <h2>@messages("totp.shared.key.title")</h2>*@
-@*                    <img src="@credentials.qrUrl"/>*@
-@*                    <h2>@messages("totp.recovery.tokens.title")</h2>*@
-@*                    <ul>*@
-@*                    @for(scratchCodePlain <- credentials.scratchCodesPlain) {*@
-@*                        <li>@{*@
-@*                            scratchCodePlain*@
-@*                        }</li>*@
-@*                    }*@
-@*                    </ul>*@
-@*                    @helper.form(action = controllers.routes.TotpController.enableTotpSubmit()) {*@
-@*                        @helper.CSRF.formField*@
-@*                        @b4.text(totpForm("verificationCode"), '_hiddenLabel -> messages("totp.verification.code    "), 'placeholder -> messages("totp.verification.code"), 'autocomplete -> "off", 'class -> "form-control input-lg")*@
-@*                        @b4.hidden(totpForm("sharedKey"))*@
-@*                        @helper.repeat(totpForm("scratchCodes"), min = 1) { scratchCodeField =>*@
-@*                            @b4.hidden(scratchCodeField("hasher"))*@
-@*                            @b4.hidden(scratchCodeField("password"))*@
-@*                            @b4.hidden(scratchCodeField("salt"))*@
-@*                        }*@
-@*                        <div class="form-group">*@
-@*                            <div>*@
-@*                                <button id="submit" type="submit" value="submit" class="btn btn-lg btn-primary btn-block">@messages("totp.verify")</button>*@
-@*                            </div>*@
-@*                        </div>*@
-@*                    }*@
-@*                }*@
-@*                case None => {*@
-@*                    <h2>@messages("totp.disabled.title")</h2>*@
-@*                    <a href="@controllers.routes.TotpController.enableTotp">*@
-@*                        <input type="button" class="btn btn-primary" value='@messages("totp.enable")'/>*@
-@*                    </a>*@
-@*                }*@
-@*            }*@
-@*        }*@
-@*        </div>*@
-@*    </div> *@
 }

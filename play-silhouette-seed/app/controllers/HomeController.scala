@@ -39,7 +39,7 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
                                webJarsUtil: WebJarsUtil,
                                assets: AssetsFinder)
                               extends AbstractController(cc) with Observer with I18nSupport {
-  var questionCount = 0;
+//  var questionCount = 0;
   controllerServer.addObserver(this);
   var actor: List[WebSocketActor] = List();
 
@@ -54,18 +54,16 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
   //    Ok(views.html.about())
   //  }
 
-  def countQuestion(): Unit = {
-    questionCount = questionCount + 1
-  }
+//  def countQuestion(): Unit = {
+//    questionCount = questionCount + 1
+//  }
 
   def offline() = silhouette.UnsecuredAction.async {
     implicit request: Request[AnyContent] =>
       Future.successful(Ok(views.html.offline()))
   }
 
-  def resetCount(): Unit = {
-    questionCount = 0
-  }
+//s
 
 //  def about(): Action[AnyContent] = silhouette.SecuredAction.async {
 //    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
@@ -81,34 +79,33 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
 //    }
 
   // GET
-  def startQuestions(): Action[AnyContent] = silhouette.SecuredAction.async {implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-      Redirect(routes.HomeController.start())
-    }
-  }
+//  def startQuestions(): Action[AnyContent] = silhouette.SecuredAction.async {implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+//    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+//      Redirect(routes.HomeController.start())
+//    }
+//  }
 
   def start(): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-      controllerServer.reset()
       controllerServer.onStartGame()
-      resetCount()
-      val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-      Ok(question)
-    }
+//      resetCount()
+//      val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
+      Future.successful((NoContent))
+//    }
   }
 
   def onAnswerChosen(position: Int): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-      countQuestion()
+//      countQuestion()
       controllerServer.onAnswerChosen(position)
-      if (questionCount < controllerServer.getGameState.questionCount()) {
-        val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-        Ok(question)
-      } else {
-        // Remove this in separate function
-        Ok(views.html.score(controllerServer.getGameState.players, request.identity, totpInfoOpt))
-      }
-    }
+      Future.successful((NoContent))
+//      if (questionCount < controllerServer.getGameState.questionCount()) {
+//        val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
+//        Ok(question)
+//      } else {
+//        // Remove this in separate function
+////        Ok(views.html.score(controllerServer.getGameState.players))
+//        Ok(views.html.score())
+//      }
+//    }
   }
 
   def javascriptRoutes: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
@@ -116,7 +113,6 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
       Ok(
         JavaScriptReverseRouter("jsRoutes")(
           routes.javascript.HomeController.onAnswerChosen,
-          routes.javascript.HomeController.startQuestions,
         )
       ).as(MimeTypes.JAVASCRIPT)
     }
@@ -141,22 +137,17 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
 
   override def update(updateData: UpdateData): Unit = {
     println(updateData.getAction())
-    updateData.getAction() match {
-      case UpdateAction.BEGIN => {
-        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("BEGIN"))))
-      }
-      case UpdateAction.TIMER_UPDATE => {
-        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("TIMER_UPDATE"))))
-      }
-      case UpdateAction.SHOW_GAME => {
-        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("SHOW_GAME"))))
-      }
-      case UpdateAction.SHOW_RESULT => {
-//        println(updateData.getAction().toString)
-        //        displayResult(updateData.getState().players)
-//        actor.foreach(actor => actor.sendJsonToClient(Json.toJson(this.controllerServer.getGameState).as[JsObject] + ("action" -> Json.toJson("SHOW_RESULT"))))
-      }
-      case _ =>
+      updateData.getAction() match {
+        case action if Seq(UpdateAction.BEGIN,
+          UpdateAction.SHOW_HELP,
+          UpdateAction.PLAYER_UPDATE,
+          UpdateAction.SHOW_GAME,
+          UpdateAction.TIMER_UPDATE,
+          UpdateAction.SHOW_RESULT
+        ).contains(action) =>
+          val json = Json.toJson(updateData.getState()).as[JsObject] + ("action" -> Json.toJson(updateData.getAction().toString))
+          actor.foreach(actor => actor.sendJsonToClient(json))
+        case _ =>
     }
   }
 }

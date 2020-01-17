@@ -2,7 +2,6 @@ import com.google.inject.AbstractModule
 import de.htwg.se.learn_duel.controller.Controller
 import de.htwg.se.learn_duel.model.Question
 import de.htwg.se.learn_duel.model.impl.Game
-
 import play.api.libs.json.{ JsValue, Json }
 
 import scala.io.Source

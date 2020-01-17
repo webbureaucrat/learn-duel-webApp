@@ -3,7 +3,6 @@
 # ~~~~
 
 # HomeController
-GET        /questions                        controllers.HomeController.startQuestions()
 GET        /start                            controllers.HomeController.start()
 GET        /onAnswerChosen                   controllers.HomeController.onAnswerChosen(position :Int)
 
