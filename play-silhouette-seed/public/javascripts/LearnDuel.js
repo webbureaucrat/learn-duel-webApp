@@ -39,7 +39,7 @@ function displayQuestions(question) {
 
 function startGame() {
     $.ajax({
-        url: "/questions",
+        url: "/start",
         type: 'GET',
         success: function (results) {
         },

@@ -34,7 +34,8 @@ libraryDependencies ++= Seq(
   filters
 )
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy).aggregate(learnDuelLib).dependsOn(learnDuelLib)
+lazy val learnDuelLib = project
 
 routesImport += "utils.route.Binders._"
 
