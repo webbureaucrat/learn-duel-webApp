@@ -14,6 +14,7 @@
                     <br/>
                     You play with questions based on your school or study assignments.
                     <br>
+                    <button class="btn btn-outline-secondary" id="play-game" v-on:click="playGame">Play the game!</button>
                 </p>
 
                 <figure class="figure">
@@ -81,12 +82,17 @@
 
 <script>
     import 'bootstrap';
+    import {startGame} from "../../../../public/javascripts/LearnDuel";
+    import {connectWebSocket} from "../../../../public/javascripts/websocket";
 
     export default {
         name: "about",
         methods: {
             openSources: function () {
                 window.open("https://github.com/webbureaucrat/learn-duel-webApp", '_blank');
+            },
+            playGame: function() {
+                this.$emit('clicked', 'question')
             }
         }
     }

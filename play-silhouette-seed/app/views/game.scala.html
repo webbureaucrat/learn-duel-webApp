@@ -17,5 +17,23 @@
 }
 
 @main(messages("home.title"), Some(user)) {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 
+    <script src='@assets.path("vue/components/main-content.js")'></script>
+
+    <div id="app"></div>
+
+    <script>
+            const app = new Vue({
+                el: '#app',
+                render: function (html) {
+                    console.log("try to connect with websocket");
+                    return html(MainContent.default, {
+                        props: {
+                            show: "question"
+                        }
+                    });
+                }
+            })
+    </script>
 }

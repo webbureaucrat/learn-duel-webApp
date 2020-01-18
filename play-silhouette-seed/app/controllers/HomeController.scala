@@ -108,16 +108,16 @@ class HomeController @Inject() (cc: ControllerComponents, controllerServer: Cont
     //    }
   }
 
-    def javascriptRoutes: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-        Ok(
-          JavaScriptReverseRouter("jsRoutes")(
-            routes.javascript.HomeController.onAnswerChosen,
-            routes.javascript.HomeController.start,
-          )
-        ).as(MimeTypes.JAVASCRIPT)
-      }
-    }
+  //    def javascriptRoutes: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+  //      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+  //        Ok(
+  //          JavaScriptReverseRouter("jsRoutes")(
+  //            routes.javascript.HomeController.onAnswerChosen,
+  //            routes.javascript.HomeController.start,
+  //          )
+  //        ).as(MimeTypes.JAVASCRIPT)
+  //      }
+  //    }
 
   def addWebsocket(actor: WebSocketActor): Unit = {
     this.actor = this.actor :+ actor

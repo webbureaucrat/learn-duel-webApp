@@ -7,10 +7,10 @@
                 <div>Remaining Time: <span id="countdown">60</span></div>
 
                 <div class="list-group">
-                    <button id='answer0' v-on:click='onAnswerChosen(0)' title='p.text'>${question.answers[0].text}</button>
-                    <button id='answer1' v-on:click='onAnswerChosen(1)' title='p.text'>${question.answers[1].text}</button>
-                    <button id='answer2' v-on:click='onAnswerChosen(2)' title='p.text'>${question.answers[2].text}</button>
-                    <button id='answer3' v-on:click='onAnswerChosen(3)' title='p.text'>${question.answers[3].text}</button>
+                    <button id='answer0' v-on:click='onAnswerChosen(0)' title='p.text'></button>
+                    <button id='answer1' v-on:click='onAnswerChosen(1)' title='p.text'></button>
+                    <button id='answer2' v-on:click='onAnswerChosen(2)' title='p.text'></button>
+                    <button id='answer3' v-on:click='onAnswerChosen(3)' title='p.text'></button>
                 </div>
             </div>
         </div>
@@ -28,11 +28,16 @@
         props: "question-data",
         methods: {
             onAnswerChosen: onAnswerChosen,
-        }
+        },
+        // mounted() {
+        //     connectWebSocket();
+        //     console.log("After connectWebSocket() in question.vue");
+        //     startGame();
+        // }
     }
 
-    startGame();
-    connectWebSocket();
+
+
 
 
 </script>
