@@ -9,7 +9,6 @@
 </template>
 
 <script>
-    import NavBar from "./nav-bar";
     import About from "./about";
     import Question from "./question";
     import Result from "./result";
@@ -18,7 +17,7 @@
 
     export default {
         name: "main-content",
-        components: {Result, Question, About, NavBar},
+        components: {Result, Question, About},
         props: ['show'],
         methods:{
             startGame :startGame,

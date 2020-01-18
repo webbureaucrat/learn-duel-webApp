@@ -51,17 +51,4 @@ function startGame() {
 
 }
 
-// $(document).ready(function () {
-//     var app = new Vue({
-//         el: '#app',
-//         render: function (html) {
-//             return html(MainContent.default, {
-//                 props: {
-//                     show: "about"
-//                 }
-//             });
-//         }
-//     })
-// });
-
 export {displayQuestions, startGame, onAnswerChosen};

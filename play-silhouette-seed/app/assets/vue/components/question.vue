@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {onAnswerChosen} from "../../../../public/javascripts/LearnDuel";
+    import {onAnswerChosen} from "../../../../../learn-duel-webapp/public/javascripts/LearnDuel";
 
 
     export default {
