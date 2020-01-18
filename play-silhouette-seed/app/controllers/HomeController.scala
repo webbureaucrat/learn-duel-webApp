@@ -2,7 +2,7 @@ package controllers
 
 import akka.actor.ActorSystem
 import akka.stream.Materializer
-import de.htwg.se.learn_duel.{Observer, UpdateAction, UpdateData}
+import de.htwg.se.learn_duel.{ Observer, UpdateAction, UpdateData }
 import javax.inject._
 import javax.inject.Inject
 import play.api.http.MimeTypes
@@ -10,7 +10,7 @@ import play.api.routing._
 import play.api.mvc._
 import de.htwg.se.learn_duel.controller.Controller
 import play.api.i18n.I18nSupport
-import play.api.libs.json.{JsObject, Json}
+import play.api.libs.json.{ JsObject, Json }
 import play.api.libs.streams.ActorFlow
 import play.api.routing.JavaScriptReverseRouter
 
@@ -31,15 +31,15 @@ import scala.concurrent.{ ExecutionContext, Future }
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, controllerServer: Controller,
-                               silhouette: Silhouette[DefaultEnv],
-                               authInfoRepository: AuthInfoRepository)
-                              (implicit system: ActorSystem,
-                               mat: Materializer, ec: ExecutionContext,
-                               webJarsUtil: WebJarsUtil,
-                               assets: AssetsFinder)
-                              extends AbstractController(cc) with Observer with I18nSupport {
-//  var questionCount = 0;
+class HomeController @Inject() (cc: ControllerComponents, controllerServer: Controller,
+  silhouette: Silhouette[DefaultEnv],
+  authInfoRepository: AuthInfoRepository)(implicit
+  system: ActorSystem,
+  mat: Materializer, ec: ExecutionContext,
+  webJarsUtil: WebJarsUtil,
+  assets: AssetsFinder)
+  extends AbstractController(cc) with Observer with I18nSupport {
+  //  var questionCount = 0;
   controllerServer.addObserver(this);
   var actor: List[WebSocketActor] = List();
 
@@ -54,69 +54,70 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
   //    Ok(views.html.about())
   //  }
 
-//  def countQuestion(): Unit = {
-//    questionCount = questionCount + 1
-//  }
+  //  def countQuestion(): Unit = {
+  //    questionCount = questionCount + 1
+  //  }
 
   def offline() = silhouette.UnsecuredAction.async {
     implicit request: Request[AnyContent] =>
       Future.successful(Ok(views.html.offline()))
   }
 
-//s
+  //s
 
-//  def about(): Action[AnyContent] = silhouette.SecuredAction.async {
-//    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-//      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-//        Ok(views.html.about(request.identity, totpInfoOpt))
-//      }
-//  }
+  //  def about(): Action[AnyContent] = silhouette.SecuredAction.async {
+  //    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+  //      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+  //        Ok(views.html.about(request.identity, totpInfoOpt))
+  //      }
+  //  }
 
-//    def viewPlayers(): Action[AnyContent] = silhouette.SecuredAction.async {
-//      implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-//        authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-//      Ok(views.html.players(PlayerForm.form))
-//    }
+  //    def viewPlayers(): Action[AnyContent] = silhouette.SecuredAction.async {
+  //      implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+  //        authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+  //      Ok(views.html.players(PlayerForm.form))
+  //    }
 
   // GET
-//  def startQuestions(): Action[AnyContent] = silhouette.SecuredAction.async {implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-//    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-//      Redirect(routes.HomeController.start())
-//    }
-//  }
+  //  def startQuestions(): Action[AnyContent] = silhouette.SecuredAction.async {implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+  //    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+  //      Redirect(routes.HomeController.start())
+  //    }
+  //  }
 
   def start(): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-      controllerServer.onStartGame()
-//      resetCount()
-//      val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-      Future.successful((NoContent))
-//    }
+    controllerServer.onStartGame()
+    //      resetCount()
+    //      val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
+    Future.successful((NoContent))
+    //    }
   }
 
   def onAnswerChosen(position: Int): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-//      countQuestion()
-      controllerServer.onAnswerChosen(position)
-      Future.successful((NoContent))
-//      if (questionCount < controllerServer.getGameState.questionCount()) {
-//        val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-//        Ok(question)
-//      } else {
-//        // Remove this in separate function
-////        Ok(views.html.score(controllerServer.getGameState.players))
-//        Ok(views.html.score())
-//      }
-//    }
+    //      countQuestion()
+    controllerServer.onAnswerChosen(position)
+    Future.successful((NoContent))
+    //      if (questionCount < controllerServer.getGameState.questionCount()) {
+    //        val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
+    //        Ok(question)
+    //      } else {
+    //        // Remove this in separate function
+    ////        Ok(views.html.score(controllerServer.getGameState.players))
+    //        Ok(views.html.score())
+    //      }
+    //    }
   }
 
-  def javascriptRoutes: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-      Ok(
-        JavaScriptReverseRouter("jsRoutes")(
-          routes.javascript.HomeController.onAnswerChosen,
-        )
-      ).as(MimeTypes.JAVASCRIPT)
+    def javascriptRoutes: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
+        Ok(
+          JavaScriptReverseRouter("jsRoutes")(
+            routes.javascript.HomeController.onAnswerChosen,
+            routes.javascript.HomeController.start,
+          )
+        ).as(MimeTypes.JAVASCRIPT)
+      }
     }
-  }
 
   def addWebsocket(actor: WebSocketActor): Unit = {
     this.actor = this.actor :+ actor
@@ -137,17 +138,19 @@ class HomeController @Inject()(cc: ControllerComponents, controllerServer: Contr
 
   override def update(updateData: UpdateData): Unit = {
     println(updateData.getAction())
-      updateData.getAction() match {
-        case action if Seq(UpdateAction.BEGIN,
-          UpdateAction.SHOW_HELP,
-          UpdateAction.PLAYER_UPDATE,
-          UpdateAction.SHOW_GAME,
-          UpdateAction.TIMER_UPDATE,
-          UpdateAction.SHOW_RESULT
-        ).contains(action) =>
-          val json = Json.toJson(updateData.getState()).as[JsObject] + ("action" -> Json.toJson(updateData.getAction().toString))
-          actor.foreach(actor => actor.sendJsonToClient(json))
-        case _ =>
+    updateData.getAction() match {
+      case action if Seq(
+        UpdateAction.BEGIN,
+        UpdateAction.SHOW_HELP,
+        UpdateAction.PLAYER_UPDATE,
+        UpdateAction.SHOW_GAME,
+        UpdateAction.TIMER_UPDATE,
+        UpdateAction.SHOW_RESULT
+      ).contains(action) =>
+        val json = Json.toJson(updateData.getState()).as[JsObject] + ("action" -> Json.toJson(updateData.getAction().toString))
+        println("action:" + action.toString)
+        actor.foreach(actor => actor.sendJsonToClient(json))
+      case _ =>
     }
   }
 }

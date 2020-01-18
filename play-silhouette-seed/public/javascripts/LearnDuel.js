@@ -16,16 +16,9 @@ function onAnswerChosen(pid) {
     $.ajax({
         url: "/onAnswerChosen?position=" + pid,
         type: 'GET',
-        success: function (results) {
-            if (typeof (results) == "object") {
-            } else {
-                $(".row").replaceWith(results);
-            }
-        },
+        success: function (results) {},
         async: true,
-        error: function (results) {
-            alert('Make call failed');
-        }
+        error: function (results) {}
     });
 }
 
@@ -41,12 +34,9 @@ function startGame() {
     $.ajax({
         url: "/start",
         type: 'GET',
-        success: function (results) {
-        },
+        success: function (results) {},
         async: true,
-        error: function (results) {
-            alert('Make call failed');
-        }
+        error: function (results) {}
     });
 
 }

@@ -1,10 +1,8 @@
 <template>
     <div>
-        <nav-bar @clicked="onClickChild"></nav-bar>
         <!--<nav-bar v-bind:show.sync="show"></nav-bar>-->
-        <question v-if="show === 'question'"></question>
-        <result v-else-if="show === 'result'"></result>
-        <about v-else></about>
+        <question ></question>
+
     </div>
 </template>
 
@@ -19,29 +17,27 @@
         name: "main-content",
         components: {Result, Question, About},
         props: ['show'],
-        methods:{
-            startGame :startGame,
-            connectWebSocket: connectWebSocket,
-            onClickChild (value) {
-                switch(value){
-                    case 'question':
-                        this.show = 'question';
-                        startGame();
-                        connectWebSocket();
-                        break;
-                    case 'about':
-                        this.show = 'about';
-                        break;
-                    case 'login':
-                        this.show = 'login';
-                    default:
-                        this.show = 'about';
-                }
-                this.$forceUpdate();
-            }
-
-
-        }
+        // methods:{
+        //     startGame :startGame,
+        //     connectWebSocket: connectWebSocket,
+        //     onClickChild (value) {
+        //         switch(value){
+        //             case 'question':
+        //                 this.show = 'question';
+        //                 startGame();
+        //                 connectWebSocket();
+        //                 break;
+        //             case 'about':
+        //                 this.show = 'about';
+        //                 break;
+        //             case 'login':
+        //                 this.show = 'login';
+        //             default:
+        //                 this.show = 'about';
+        //         }
+        //         this.$forceUpdate();
+        //     }
+        // }
     }
 
 </script>

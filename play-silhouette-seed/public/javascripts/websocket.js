@@ -3,7 +3,7 @@ import {displayQuestions} from '../../../learn-duel-webapp/public/javascripts/Le
 function connectWebSocket() {
 
 
-    console.log("connecting");
+    console.log("in connectWebSocket connecting");
     var websocket = new WebSocket("ws://localhost:9000/websocket");
     // websocket.setTimeout = 1;
 

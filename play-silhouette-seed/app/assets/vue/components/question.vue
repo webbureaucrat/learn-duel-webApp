@@ -19,6 +19,8 @@
 
 <script>
     import {onAnswerChosen} from "../../../../../learn-duel-webapp/public/javascripts/LearnDuel";
+    import {startGame} from "../../../../public/javascripts/LearnDuel";
+    import {connectWebSocket} from "../../../../public/javascripts/websocket";
 
 
     export default {
@@ -28,6 +30,9 @@
             onAnswerChosen: onAnswerChosen,
         }
     }
+
+    startGame();
+    connectWebSocket();
 
 
 </script>

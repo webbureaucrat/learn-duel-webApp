@@ -56,7 +56,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy
 
 lazy val learnDuelLib = project
 
-routesImport += "utils.route.Binders._"
+
 
 
 

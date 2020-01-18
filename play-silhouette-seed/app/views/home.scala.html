@@ -31,6 +31,7 @@
             const app = new Vue({
                 el: '#app',
                 render: function (html) {
+                    console.log("try to connect with websocket");
                     return html(MainContent.default, {
                         props: {
                             show: "question"

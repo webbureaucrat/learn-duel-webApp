@@ -6,7 +6,7 @@
 GET        /start                            controllers.HomeController.start()
 GET        /onAnswerChosen                   controllers.HomeController.onAnswerChosen(position :Int)
 
-GET         /assets/javascripts/routes       controllers.HomeController.javascriptRoutes
+#GET         /assets/javascripts/routes       controllers.HomeController.javascriptRoutes
 GET         /websocket                       controllers.HomeController.socket
 
 # Home page
