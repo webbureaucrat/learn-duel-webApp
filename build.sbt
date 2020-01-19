@@ -38,8 +38,33 @@ libraryDependencies ++= Seq(
   filters
 )
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy).aggregate(learnDuelLib).dependsOn(learnDuelLib)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy).aggregate(learnDuelLib).dependsOn(learnDuelLib).settings(
+  scalaVersion := "2.12.8",
+  libraryDependencies ++= Seq(
+    guice
+  ),
+  Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage"),
+  Assets / VueKeys.vuefy / VueKeys.webpackBinary := {
+    // Detect windows
+    if (sys.props.getOrElse("os.name", "").toLowerCase.contains("win")) {
+      (new File(".") / "node_modules" / ".bin" / "webpack.cmd").getAbsolutePath
+    } else {
+      (new File(".") / "node_modules" / ".bin" / "webpack").getAbsolutePath
+    }
+  },
+  Assets / VueKeys.vuefy / VueKeys.webpackConfig := (new File(".") / "webpack.config.js").getAbsolutePath,
+  // All non-entry-points components, which are not included directly in HTML, should have the prefix `_`.
+  // Webpack shouldn't compile non-entry-components directly. It's wasteful.
+  Assets / VueKeys.vuefy / excludeFilter := "_*"
+)
+
+//unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules"
+
 lazy val learnDuelLib = project
+
+JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
+
+
 
 routesImport += "utils.route.Binders._"
 
@@ -73,77 +98,3 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(FormatXml, false)
   .setPreference(DoubleIndentConstructorArguments, false)
   .setPreference(DanglingCloseParenthesis, Preserve)
-
-// The commands that triggers production build when running Webpack, as in `webpack -p`.
-Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage")
-
-// The location of the webpack binary. For windows, it might be `webpack.cmd`.
-Assets / VueKeys.vuefy / VueKeys.webpackBinary := "./node_modules/.bin/webpack"
-
-// The location of the webpack configuration.
-Assets / VueKeys.vuefy / VueKeys.webpackConfig := "./webpack.config.js"
-
-unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules"
-
-Assets / VueKeys.vuefy / excludeFilter := "_*"
-
-//lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy).aggregate(learnDuelLib).dependsOn(learnDuelLib).settings(
-//  scalaVersion := "2.12.8",
-//  libraryDependencies ++= Seq(
-//    guice
-//  ),
-//  Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage"),
-//  Assets / VueKeys.vuefy / VueKeys.webpackBinary := {
-//    // Detect windows
-//    if (sys.props.getOrElse("os.name", "").toLowerCase.contains("win")) {
-//      (new File(".") / "node_modules" / ".bin" / "webpack.cmd").getAbsolutePath
-//    } else {
-//      (new File(".") / "node_modules" / ".bin" / "webpack").getAbsolutePath
-//    }
-//  },
-//  Assets / VueKeys.vuefy / VueKeys.webpackConfig := (new File(".") / "webpack.config.js").getAbsolutePath,
-//  // All non-entry-points components, which are not included directly in HTML, should have the prefix `_`.
-//  // Webpack shouldn't compile non-entry-components directly. It's wasteful.
-//  Assets / VueKeys.vuefy / excludeFilter := "_*"
-//)
-//
-////unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules"
-//
-//lazy val learnDuelLib = project
-//
-//JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
-//
-//
-//
-//routesImport += "utils.route.Binders._"
-//
-//// https://github.com/playframework/twirl/issues/105
-//TwirlKeys.templateImports := Seq()
-//
-//scalacOptions ++= Seq(
-//  "-deprecation", // Emit warning and location for usages of deprecated APIs.
-//  "-feature", // Emit warning and location for usages of features that should be imported explicitly.
-//  "-unchecked", // Enable additional warnings where generated code depends on assumptions.
-//  "-Xfatal-warnings", // Fail the compilation if there are any warnings.
-//  //"-Xlint", // Enable recommended additional warnings.
-//  "-Ywarn-adapted-args", // Warn if an argument list is modified to match the receiver.
-//  "-Ywarn-dead-code", // Warn when dead code is identified.
-//  "-Ywarn-inaccessible", // Warn about inaccessible types in method signatures.
-//  "-Ywarn-nullary-override", // Warn when non-nullary overrides nullary, e.g. def foo() over def foo.
-//  "-Ywarn-numeric-widen", // Warn when numerics are widened.
-//  // Play has a lot of issues with unused imports and unsued params
-//  // https://github.com/playframework/playframework/issues/6690
-//  // https://github.com/playframework/twirl/issues/105
-//  "-Xlint:-unused,_"
-//)
-//
-////********************************************************
-//// Scalariform settings
-////********************************************************
-//
-//scalariformAutoformat := true
-//
-//ScalariformKeys.preferences := ScalariformKeys.preferences.value
-//  .setPreference(FormatXml, false)
-//  .setPreference(DoubleIndentConstructorArguments, false)
-//  .setPreference(DanglingCloseParenthesis, Preserve)
