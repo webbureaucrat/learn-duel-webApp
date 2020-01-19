@@ -82,8 +82,6 @@
 
 <script>
     import 'bootstrap';
-    import {startGame} from "../../../../public/javascripts/LearnDuel";
-    import {connectWebSocket} from "../../../../public/javascripts/websocket";
 
     export default {
         name: "about",

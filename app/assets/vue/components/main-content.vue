@@ -6,12 +6,13 @@
     </div>
 </template>
 
+
 <script>
     import Question from "./question";
     import Result from "./result";
     import About from "./about";
-    import {startGame} from "../../../../public/javascripts/LearnDuel";
-    import {connectWebSocket} from "../../../../public/javascripts/websocket";
+    import {startGame} from "./LearnDuel;"
+    import {connectWebSocket} from "./websocket";
 
     export default {
         name: "main-content",

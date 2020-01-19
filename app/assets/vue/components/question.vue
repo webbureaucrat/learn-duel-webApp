@@ -18,9 +18,7 @@
 </template>
 
 <script>
-    import {onAnswerChosen} from "../../../../../learn-duel-webapp/public/javascripts/LearnDuel";
-    import {startGame} from "../../../../public/javascripts/LearnDuel";
-    import {connectWebSocket} from "../../../../public/javascripts/websocket";
+    import {onAnswerChosen} from "./LearnDuel";
 
 
     export default {
