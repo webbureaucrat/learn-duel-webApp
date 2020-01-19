@@ -4,7 +4,9 @@ function connectWebSocket() {
 
 
     console.log("in connectWebSocket connecting");
-    var websocket = new WebSocket("ws://localhost:9000/websocket");
+    //var websocket = new WebSocket("ws://localhost:9000/websocket");
+    var HOST = location.origin.replace(/^http/, 'ws');
+    var websocket = new WebSocket(HOST + "/websocket");
     // websocket.setTimeout = 1;
 
     websocket.onopen = function(event) {

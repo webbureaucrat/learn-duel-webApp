@@ -2,9 +2,9 @@ import com.typesafe.sbt.SbtScalariform._
 
 import scalariform.formatter.preferences._
 
-name := "play-silhouette-seed"
+name := "htwg-learnduel"
 
-herokuAppName in Compile := "play-silhouette-seed"
+herokuAppName in Compile := "htwg-learnduel"
 
 herokuJdkVersion in Compile := "8"
 
