@@ -4,6 +4,10 @@ import scalariform.formatter.preferences._
 
 name := "play-silhouette-seed"
 
+herokuAppName in Compile := "htwg-web-chess"
+
+herokuJdkVersion in Compile := "8"
+
 version := "6.0.0"
 
 scalaVersion := "2.12.8"
@@ -53,6 +57,8 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy
   // Webpack shouldn't compile non-entry-components directly. It's wasteful.
   Assets / VueKeys.vuefy / excludeFilter := "_*"
 )
+
+unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules"
 
 lazy val learnDuelLib = project
 
