@@ -4,7 +4,7 @@ import scalariform.formatter.preferences._
 
 name := "play-silhouette-seed"
 
-herokuAppName in Compile := "htwg-web-chess"
+herokuAppName in Compile := "play-silhouette-seed"
 
 herokuJdkVersion in Compile := "8"
 
