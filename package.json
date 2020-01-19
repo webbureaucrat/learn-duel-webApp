@@ -36,7 +36,7 @@
     "heroku"
   ],
   "scripts": {
-    "heroku-prebuild": "npm install --dev && npm run build",
+    "heroku-prebuild": "npm install && npm run build",
     "dev": "webpack-dev-server --progress"
   }
 }
