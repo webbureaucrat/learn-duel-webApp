@@ -37,6 +37,7 @@ libraryDependencies ++= Seq(
   guice,
   filters
 )
+routesImport += "utils.route.Binders._"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy).aggregate(learnDuelLib).dependsOn(learnDuelLib).settings(
   scalaVersion := "2.12.8",
@@ -44,21 +45,14 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy
     guice
   ),
   Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage"),
-  Assets / VueKeys.vuefy / VueKeys.webpackBinary := {
-    // Detect windows
-    if (sys.props.getOrElse("os.name", "").toLowerCase.contains("win")) {
-      (new File(".") / "node_modules" / ".bin" / "webpack.cmd").getAbsolutePath
-    } else {
-      (new File(".") / "node_modules" / ".bin" / "webpack").getAbsolutePath
-    }
-  },
-  Assets / VueKeys.vuefy / VueKeys.webpackConfig := (new File(".") / "webpack.config.js").getAbsolutePath,
+  // The location of the webpack binary. For windows, it might be `webpack.cmd`.
+  Assets / VueKeys.vuefy / VueKeys.webpackBinary := "./node_modules/.bin/webpack",
+  Assets / VueKeys.vuefy / VueKeys.webpackConfig := "./webpack.config.js" ,
   // All non-entry-points components, which are not included directly in HTML, should have the prefix `_`.
+  unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules",
   // Webpack shouldn't compile non-entry-components directly. It's wasteful.
   Assets / VueKeys.vuefy / excludeFilter := "_*"
 )
-
-unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules"
 
 lazy val learnDuelLib = project
 
@@ -66,7 +60,7 @@ JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 
 
 
-routesImport += "utils.route.Binders._"
+
 
 // https://github.com/playframework/twirl/issues/105
 TwirlKeys.templateImports := Seq()
