@@ -6,7 +6,7 @@ name := "htwg-learnduel"
 
 herokuAppName in Compile := "htwg-learnduel"
 
-herokuJdkVersion in Compile := "8"
+//herokuJdkVersion in Compile := "8"
 
 version := "1.8.0"
 
