@@ -37,7 +37,6 @@
     "heroku"
   ],
   "scripts": {
-    "postinstall": "npm install",
     "dev": "webpack-dev-server --progress"
   }
 }
