@@ -1,4 +1,4 @@
-import {displayQuestions} from '../../../learn-duel-webapp/public/javascripts/LearnDuel';
+import {displayQuestions} from './LearnDuel';
 
 function connectWebSocket() {
 
