@@ -4,7 +4,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  //mode: 'production',
+  mode: 'production',
   plugins: [
     new VueLoaderPlugin()
   ],

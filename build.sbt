@@ -58,7 +58,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy
   Assets / VueKeys.vuefy / excludeFilter := "_*"
 )
 
-//unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules"
+unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules"
 
 lazy val learnDuelLib = project
 
