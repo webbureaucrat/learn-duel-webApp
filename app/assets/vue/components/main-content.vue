@@ -11,7 +11,7 @@
     import Question from "./question";
     import Result from "./result";
     import About from "./about";
-    import {startGame} from "./LearnDuel;"
+    import {startGame} from "./LearnDuel";
     import {connectWebSocket} from "./websocket";
 
     export default {
