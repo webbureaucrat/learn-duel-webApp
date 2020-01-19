@@ -62,7 +62,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy
 
 lazy val learnDuelLib = project
 
-
+JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 
 
 
