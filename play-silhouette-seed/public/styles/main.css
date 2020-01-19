@@ -1,14 +1,26 @@
 body {
     font-size: 16px;
     background: #f5f7f9;
+    -webkit-transition: background-color 1s ease-in-out, color 1s ease-in-out;
+    -moz-transition: background-color 1s ease-in-out, color 1s ease-in-out;
+    -o-transition: background-color 1s ease-in-out, color 1s ease-in-out;
+    -khtml-transition: background-color 1s ease-in-out, color 1s ease-in-out;
+    transition: background-color 1s ease-in-out, color 1s ease-in-out;
+}
+
+.row, .containers {
+    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 15px 15px;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
 }
 
 h1 {
     text-align: center;
     font-size: 30px;
-}
-.starter-template {
-    padding: 40px 15px;
 }
 
 input, button {
@@ -24,12 +36,14 @@ input:hover, input:focus {
 fieldset {
     margin-top: 100px;
 }
+
 legend {
     font-family: 'Montserrat', sans-serif;
     text-align: center;
     font-size: 20px;
     padding: 15px;
 }
+
 a {
     cursor: pointer;
 }
@@ -41,12 +55,30 @@ a {
     border-radius: 4px;
     outline: none;
 }
-.facebook { background: #3B5998; }
-.google { background: #D14836; }
-.twitter { background: #00ACED; }
-.yahoo { background: #731A8B; }
-.xing { background: #006567; }
-.vk { background: #567ca4; }
+
+.facebook {
+    background: #3B5998;
+}
+
+.google {
+    background: #D14836;
+}
+
+.twitter {
+    background: #00ACED;
+}
+
+.yahoo {
+    background: #731A8B;
+}
+
+.xing {
+    background: #006567;
+}
+
+.vk {
+    background: #567ca4;
+}
 
 .social-providers,
 .sign-in-now,
@@ -59,6 +91,7 @@ a {
 .user {
     margin-top: 50px;
 }
+
 .user .data {
     margin-top: 10px;
 }
@@ -105,29 +138,59 @@ meter {
 
     /* Applicable only to Firefox */
     background: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 meter::-webkit-meter-bar {
     background: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 meter[value="0"]::-webkit-meter-optimum-value,
-meter[value="1"]::-webkit-meter-optimum-value { background: red; }
-meter[value="2"]::-webkit-meter-optimum-value { background: orange; }
-meter[value="3"]::-webkit-meter-optimum-value { background: yellow; }
-meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+meter[value="1"]::-webkit-meter-optimum-value {
+    background: red;
+}
 
-meter::-webkit-meter-even-less-good-value { background: red; }
-meter::-webkit-meter-suboptimum-value { background: orange; }
-meter::-webkit-meter-optimum-value { background: green; }
+meter[value="2"]::-webkit-meter-optimum-value {
+    background: orange;
+}
+
+meter[value="3"]::-webkit-meter-optimum-value {
+    background: yellow;
+}
+
+meter[value="4"]::-webkit-meter-optimum-value {
+    background: green;
+}
+
+meter::-webkit-meter-even-less-good-value {
+    background: red;
+}
+
+meter::-webkit-meter-suboptimum-value {
+    background: orange;
+}
+
+meter::-webkit-meter-optimum-value {
+    background: green;
+}
 
 meter[value="1"]::-moz-meter-bar,
-meter[value="1"]::-moz-meter-bar { background: red; }
-meter[value="2"]::-moz-meter-bar { background: orange; }
-meter[value="3"]::-moz-meter-bar { background: yellow; }
-meter[value="4"]::-moz-meter-bar { background: green; }
+meter[value="1"]::-moz-meter-bar {
+    background: red;
+}
+
+meter[value="2"]::-moz-meter-bar {
+    background: orange;
+}
+
+meter[value="3"]::-moz-meter-bar {
+    background: yellow;
+}
+
+meter[value="4"]::-moz-meter-bar {
+    background: green;
+}
 
 meter::-webkit-meter-optimum-value {
     transition: width .4s ease-out;

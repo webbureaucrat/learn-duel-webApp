@@ -95,6 +95,7 @@ class HomeController @Inject() (cc: ControllerComponents, controllerServer: Cont
 
   def onAnswerChosen(position: Int): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
     //      countQuestion()
+    println("POSITION is: " + position);
     controllerServer.onAnswerChosen(position)
     Future.successful((NoContent))
     //      if (questionCount < controllerServer.getGameState.questionCount()) {
