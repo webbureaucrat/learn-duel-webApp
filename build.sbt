@@ -37,30 +37,16 @@ libraryDependencies ++= Seq(
   guice,
   filters
 )
-routesImport += "utils.route.Binders._"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy).aggregate(learnDuelLib).dependsOn(learnDuelLib).settings(
-  scalaVersion := "2.12.8",
-  libraryDependencies ++= Seq(
-    guice
-  ),
-  Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage"),
-  // The location of the webpack binary. For windows, it might be `webpack.cmd`.
-  Assets / VueKeys.vuefy / VueKeys.webpackBinary := "./node_modules/.bin/webpack",
-  Assets / VueKeys.vuefy / VueKeys.webpackConfig := "./webpack.config.js" ,
-  // All non-entry-points components, which are not included directly in HTML, should have the prefix `_`.
-  unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules",
-  // Webpack shouldn't compile non-entry-components directly. It's wasteful.
-  Assets / VueKeys.vuefy / excludeFilter := "_*"
-)
 
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb, SbtVuefy).aggregate(learnDuelLib).dependsOn(learnDuelLib)
 lazy val learnDuelLib = project
 
-JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
+routesImport += "utils.route.Binders._"
 
-
-
-
+//libraryDependencies ++= Seq(
+////  guice
+////)
 
 // https://github.com/playframework/twirl/issues/105
 TwirlKeys.templateImports := Seq()
@@ -92,3 +78,24 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(FormatXml, false)
   .setPreference(DoubleIndentConstructorArguments, false)
   .setPreference(DanglingCloseParenthesis, Preserve)
+
+// The commands that triggers production build when running Webpack, as in `webpack -p`.
+Assets / VueKeys.vuefy / VueKeys.prodCommands := Set("stage")
+
+// The location of the webpack binary. For windows, it might be `webpack.cmd`.
+Assets / VueKeys.vuefy / VueKeys.webpackBinary := "./node_modules/.bin/webpack"
+
+// The location of the webpack configuration.
+Assets / VueKeys.vuefy / VueKeys.webpackConfig := "./webpack.config.js"
+
+unmanagedResourceDirectories in Assets += baseDirectory.value / "public/node_modules"
+
+Assets / VueKeys.vuefy / excludeFilter := "_*"
+
+
+
+
+
+
+
+

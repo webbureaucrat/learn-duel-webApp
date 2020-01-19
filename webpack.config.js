@@ -40,10 +40,10 @@ module.exports = {
       }
     ]
   },
-  externals: {
-    // The below allows Typescript to `import Vue from 'vue'` without including Vue in the bundle.
-    vue: 'Vue'
-  },
+  // externals: {
+  //   // The below allows Typescript to `import Vue from 'vue'` without including Vue in the bundle.
+  //   vue: 'Vue'
+  // },
   resolve: {
     extensions: ['.ts', '.js', '.vue']
   },
