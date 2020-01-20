@@ -16,13 +16,13 @@
 }
 
 @main(messages("home.title"), Some(user)) {
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+   <script @{CSPNonce.attr} src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
 
-    <script src='@assets.path("vue/components/main-content.js")'></script>
+    <script @{CSPNonce.attr} src='@assets.path("vue/components/main-content.js")'></script>
 
     <div id="app"></div>
 
-    <script>
+    <script @{CSPNonce.attr}>
             const app = new Vue({
                 el: '#app',
                 render: function (html) {
