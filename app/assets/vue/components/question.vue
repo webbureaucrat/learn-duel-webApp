@@ -1,18 +1,14 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col align-self-center">
-                <h1 class="text-center">Text to replace</h1>
+    <div class="col">
+        <h1 class="text-center"> </h1>
 
-                <div>Remaining Time: <span id="countdown">60</span></div>
+        <div>Remaining Time: <span id="countdown"> </span></div>
 
-                <div class="list-group">
-                    <button id='answer0' v-on:click='onAnswerChosen(0)' title='p.text'></button>
-                    <button id='answer1' v-on:click='onAnswerChosen(1)' title='p.text'></button>
-                    <button id='answer2' v-on:click='onAnswerChosen(2)' title='p.text'></button>
-                    <button id='answer3' v-on:click='onAnswerChosen(3)' title='p.text'></button>
-                </div>
-            </div>
+        <div class="list-group">
+            <button id='answer0' v-on:click='onAnswerChosen(1)' title='p.text'></button>
+            <button id='answer1' v-on:click='onAnswerChosen(2)' title='p.text'></button>
+            <button id='answer2' v-on:click='onAnswerChosen(3)' title='p.text'></button>
+            <button id='answer3' v-on:click='onAnswerChosen(4)' title='p.text'></button>
         </div>
     </div>
 </template>
@@ -25,7 +21,9 @@
         name: "question",
         props: "question-data",
         methods: {
-            onAnswerChosen: onAnswerChosen,
+            onAnswerChosen(id) {
+                onAnswerChosen(id)
+            }
         },
         // mounted() {
         //     connectWebSocket();

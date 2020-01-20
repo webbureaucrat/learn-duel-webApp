@@ -50,74 +50,22 @@ class HomeController @Inject() (cc: ControllerComponents, controllerServer: Cont
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  //  def about() = Action { implicit request: Request[AnyContent] =>
-  //    Ok(views.html.about())
-  //  }
-
-  //  def countQuestion(): Unit = {
-  //    questionCount = questionCount + 1
-  //  }
-
   def offline() = silhouette.UnsecuredAction.async {
     implicit request: Request[AnyContent] =>
       Future.successful(Ok(views.html.offline()))
   }
 
-  //s
-
-  //  def about(): Action[AnyContent] = silhouette.SecuredAction.async {
-  //    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-  //      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-  //        Ok(views.html.about(request.identity, totpInfoOpt))
-  //      }
-  //  }
-
-  //    def viewPlayers(): Action[AnyContent] = silhouette.SecuredAction.async {
-  //      implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-  //        authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-  //      Ok(views.html.players(PlayerForm.form))
-  //    }
-
-  // GET
-  //  def startQuestions(): Action[AnyContent] = silhouette.SecuredAction.async {implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-  //    authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-  //      Redirect(routes.HomeController.start())
-  //    }
-  //  }
-
-  def start(): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    controllerServer.onStartGame()
-    //      resetCount()
-    //      val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-    Future.successful((NoContent))
-    //    }
+  def start(): Action[AnyContent] = silhouette.SecuredAction.async {
+    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+      controllerServer.onStartGame()
+      Future.successful((NoContent))
   }
 
-  def onAnswerChosen(position: Int): Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-    //      countQuestion()
-    controllerServer.onAnswerChosen(position)
-    Future.successful((NoContent))
-    //      if (questionCount < controllerServer.getGameState.questionCount()) {
-    //        val question = Json.toJson(controllerServer.getGameState.currentQuestion.get)
-    //        Ok(question)
-    //      } else {
-    //        // Remove this in separate function
-    ////        Ok(views.html.score(controllerServer.getGameState.players))
-    //        Ok(views.html.score())
-    //      }
-    //    }
+  def onAnswerChosen(position: Int): Action[AnyContent] = silhouette.SecuredAction.async {
+    implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+      controllerServer.onAnswerChosen(position)
+      Future.successful((NoContent))
   }
-
-  //    def javascriptRoutes: Action[AnyContent] = silhouette.SecuredAction.async { implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
-  //      authInfoRepository.find[GoogleTotpInfo](request.identity.loginInfo).map { totpInfoOpt =>
-  //        Ok(
-  //          JavaScriptReverseRouter("jsRoutes")(
-  //            routes.javascript.HomeController.onAnswerChosen,
-  //            routes.javascript.HomeController.start,
-  //          )
-  //        ).as(MimeTypes.JAVASCRIPT)
-  //      }
-  //    }
 
   def addWebsocket(actor: WebSocketActor): Unit = {
     this.actor = this.actor :+ actor

@@ -1,4 +1,5 @@
 import {displayQuestions} from './LearnDuel';
+import {buildScore, setScoreBackground} from './score';
 
 function connectWebSocket() {
 
@@ -22,24 +23,25 @@ function connectWebSocket() {
     };
 
     websocket.onmessage = function (gameState) {
-        // console.log(gameState.data.currentQuestionTime);
         let jsonObject = JSON.parse(gameState.data);
         if (jsonObject.action === "TIMER_UPDATE") {
-            // jquery selection does not work
             console.log(jsonObject.action.toString());
-            document.querySelector('#countdown').textContent = (document.querySelector('#countdown').textContent - 1).toString();
+            displayQuestions(jsonObject.currentQuestion);
+            // jquery selection does not work here
+            document.querySelector('#countdown').textContent = jsonObject.currentQuestionTime;
         }
         else if (jsonObject.action === "SHOW_RESULT"){
-            //get result
             console.log("show result");
             console.log(jsonObject.players);
-            $(".row").replaceWith(jsonObject.players);
+            setScoreBackground(jsonObject.players[0].wrongAnswers.length);
+            $('.row').empty().append(buildScore(jsonObject.players));
         }
         else if (jsonObject.action === "SHOW_GAME") {
+            console.log(jsonObject.action.toString());
             displayQuestions(jsonObject.currentQuestion);
-            document.querySelector('#countdown').textContent = (60).toString();
+            // jquery selection does not work here
+            document.querySelector('#countdown').textContent = jsonObject.currentQuestionTime;
         }
-
     };
 }
 
