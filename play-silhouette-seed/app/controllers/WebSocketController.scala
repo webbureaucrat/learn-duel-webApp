@@ -21,10 +21,14 @@ class WebSocketController @Inject() (cc: ControllerComponents, homeController: H
 }
 
 object WebSocketActorFactory {
-  def props(out: ActorRef, homeController: HomeController): Props = Props(new WebSocketActor(out, homeController))
+  def props(out: ActorRef, homeController: HomeController): Props =
+    Props(new WebSocketActor(out, homeController))
 }
 
-class WebSocketActor(out: ActorRef, homeController: HomeController) extends Actor {
+class WebSocketActor(
+  out: ActorRef,
+  homeController: HomeController)
+  extends Actor {
 
   override def preStart(): Unit = {
     super.preStart()
@@ -36,8 +40,8 @@ class WebSocketActor(out: ActorRef, homeController: HomeController) extends Acto
       out ! ("I received your message: " + msg)
   }
 
-  def sendJsonToClient(json: JsObject) = {
-    //    println("Received message from Controller")
+  def sendJsonToClient(json: JsObject): Unit = {
     out ! (json.toString())
   }
 }
+

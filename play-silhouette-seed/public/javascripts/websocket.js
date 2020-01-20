@@ -3,9 +3,9 @@ import {buildScore, setScoreBackground} from '../../../play-silhouette-seed/publ
 
 function connectWebSocket() {
 
-
     console.log("in connectWebSocket connecting");
-    var websocket = new WebSocket("ws://localhost:9000/websocket");
+    let HOST = location.origin.replace(/^http/, 'ws');
+    let websocket = new WebSocket(HOST + "/websocket");
 
     websocket.onopen = function(event) {
         console.log("Connected to Websocket");

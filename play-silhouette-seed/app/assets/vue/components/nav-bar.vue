@@ -32,15 +32,12 @@
         methods: {
             play: function () {
                 this.$emit('clicked', 'question')
-                // this.$emit('update:show', 'question')
             },
             about: function () {
                 this.$emit('clicked', 'about')
-                // this.$emit('update:show', 'about')
             },
             login: function () {
                 this.$emit('clicked', 'login')
-                // this.$emit('update:show', 'login')
             }
         }
     }

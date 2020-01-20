@@ -1,6 +1,6 @@
 <template>
     <div class="col">
-        <h1 class="text-center"></h1>
+        <h1 class="text-center"> </h1>
 
         <div>Remaining Time: <span id="countdown"> </span></div>
 
@@ -14,8 +14,6 @@
 </template>
 
 <script>
-
-
     import {onAnswerChosen} from "../../../../public/javascripts/LearnDuel";
 
     export default {
@@ -25,13 +23,7 @@
             onAnswerChosen(id) {
                 onAnswerChosen(id)
             }
-
         },
-        // mounted() {
-        //     connectWebSocket();
-        //     console.log("After connectWebSocket() in question.vue");
-        //     startGame();
-        // }
     }
 
 
@@ -40,3 +32,6 @@
 <style scoped>
 
 </style>
+
+
+
