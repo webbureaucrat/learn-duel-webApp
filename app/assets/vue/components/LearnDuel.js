@@ -23,11 +23,11 @@ function onAnswerChosen(pid) {
 }
 
 function displayQuestions(question) {
-    $(".text-center").text(question.text);
-    $("#answer0").html(question.answers[0].text);
-    $("#answer1").html(question.answers[1].text);
-    $("#answer2").html(question.answers[2].text);
-    $("#answer3").html(question.answers[3].text);
+    document.querySelector(".text-center").text(question.text);
+    document.querySelector("#answer0").html(question.answers[0].text);
+    document.querySelector("#answer1").html(question.answers[1].text);
+    document.querySelector("#answer2").html(question.answers[2].text);
+    document.querySelector("#answer3").html(question.answers[3].text);
 }
 
 function startGame() {

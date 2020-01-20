@@ -34,7 +34,7 @@ function connectWebSocket() {
             console.log("show result");
             console.log(jsonObject.players);
             setScoreBackground(jsonObject.players[0].wrongAnswers.length);
-            $('.row').empty().append(buildScore(jsonObject.players));
+            document.querySelector('.row').empty().append(buildScore(jsonObject.players));
         }
         else if (jsonObject.action === "SHOW_GAME") {
             console.log(jsonObject.action.toString());
