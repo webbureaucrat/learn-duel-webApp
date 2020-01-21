@@ -57,6 +57,7 @@ class HomeController @Inject() (cc: ControllerComponents, controllerServer: Cont
 
   def start(): Action[AnyContent] = silhouette.SecuredAction.async {
     implicit request: SecuredRequest[DefaultEnv, AnyContent] =>
+      controllerServer.reset()
       controllerServer.onStartGame()
       Future.successful((NoContent))
   }
