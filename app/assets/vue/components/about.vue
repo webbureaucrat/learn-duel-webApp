@@ -26,14 +26,8 @@
                 <h4> How to play:</h4>
 
                 <p><small>
-                    First you have to type in your player name(s).
-                    <br/>
-                    If you are playing alone, the answers can be selected with the mouse or the keys 1-4.
-                    <br/>In multiplayer mode player 1 can specify his answer with the keys 1-4 and\nplayer 2 with the
-                    keys 6-9.
-                    <br/><br/>
-                    By clicking "Play Learn Duel", you enter the game mode.
-                    <br/>
+                    When the game starts, it shows you the questions you want to learn.
+                    By clicking with your mouse on one of the four answers, you will get the next question.
                     You will have 60 seconds to answer each question.
                 </small></p>
                 <br>
