@@ -1,24 +1,24 @@
 [
   {
     "id": 1,
-    "text": "What is 1+1?",
+    "text": "Which protocol is used to receive e-mails?",
     "points": 20,
     "answers": [
       {
         "id": 1,
-        "text": "1"
+        "text": "SMTP"
       },
       {
         "id": 2,
-        "text": "2"
+        "text": "POP3"
       },
       {
         "id": 3,
-        "text": "3"
+        "text": "HTTP"
       },
       {
         "id": 4,
-        "text": "4"
+        "text": "FTP"
       }
     ],
     "correctAnswer": 2,
@@ -26,27 +26,152 @@
   },
   {
     "id": 2,
-    "text": "What is 5*20?",
+    "text": "Which protocol is used to send e-mails?",
     "points": 50,
     "answers": [
       {
         "id": 1,
-        "text": "168"
+        "text": "HTTP"
       },
       {
         "id": 2,
-        "text": "934"
+        "text": "POP3"
       },
       {
         "id": 3,
-        "text": "236"
+        "text": "SMTP"
       },
       {
         "id": 4,
-        "text": "100"
+        "text": "SSH"
       }
     ],
-    "correctAnswer": 4,
+    "correctAnswer": 3,
+    "time": 60
+  },
+  {
+    "id": 3,
+    "text": "What does the letter \"S\" stand for in the Web terminology HTTPS?",
+    "points": 50,
+    "answers": [
+      {
+        "id": 1,
+        "text": "Safe"
+      },
+      {
+        "id": 2,
+        "text": "Secure"
+      },
+      {
+        "id": 3,
+        "text": "Short"
+      },
+      {
+        "id": 4,
+        "text": "Shorter"
+      }
+    ],
+    "correctAnswer": 2,
+    "time": 60
+  },
+  {
+    "id": 4,
+    "text": "Which IP address can not be assigned to a machine in a network?",
+    "points": 50,
+    "answers": [
+      {
+        "id": 1,
+        "text": "192.168.1.1"
+      },
+      {
+        "id": 2,
+        "text": "192.1.1.27"
+      },
+      {
+        "id": 3,
+        "text": "127.0.0.1"
+      },
+      {
+        "id": 4,
+        "text": "None of the above"
+      }
+    ],
+    "correctAnswer": 3,
+    "time": 60
+  },
+  {
+    "id": 5,
+    "text": "Data moves through the network in a structure called?",
+    "points": 50,
+    "answers": [
+      {
+        "id": 1,
+        "text": "Packets"
+      },
+      {
+        "id": 2,
+        "text": "Datagram"
+      },
+      {
+        "id": 3,
+        "text": "Payback"
+      },
+      {
+        "id": 4,
+        "text": "Payload"
+      }
+    ],
+    "correctAnswer": 1,
+    "time": 60
+  },
+  {
+    "id": 6,
+    "text": "URL stands for ...?",
+    "points": 50,
+    "answers": [
+      {
+        "id": 1,
+        "text": "Uniform Resource Locator"
+      },
+      {
+        "id": 2,
+        "text": "Universal Resource Locator"
+      },
+      {
+        "id": 3,
+        "text": "Unique Resource Locator"
+      },
+      {
+        "id": 4,
+        "text": "Uniform Reserve Locator"
+      }
+    ],
+    "correctAnswer": 1,
+    "time": 60
+  },
+  {
+    "id": 7,
+    "text": "What is the full form of CSS?",
+    "points": 50,
+    "answers": [
+      {
+        "id": 1,
+        "text": "Color style sheet"
+      },
+      {
+        "id": 2,
+        "text": "Cascading style sheet"
+      },
+      {
+        "id": 3,
+        "text": "Creative style sheet"
+      },
+      {
+        "id": 4,
+        "text": "Concatenated style sheet"
+      }
+    ],
+    "correctAnswer": 2,
     "time": 60
   }
 ]
