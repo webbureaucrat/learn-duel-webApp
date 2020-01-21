@@ -23,11 +23,12 @@ function onAnswerChosen(pid) {
 }
 
 function displayQuestions(question) {
-    document.querySelector(".text-center").textContent(question.text);
-    document.querySelector("#answer0").html(question.answers[0].text);
-    document.querySelector("#answer1").html(question.answers[1].text);
-    document.querySelector("#answer2").html(question.answers[2].text);
-    document.querySelector("#answer3").html(question.answers[3].text);
+    console.log()
+    document.querySelector(".text-center").textContent = question.text;
+    document.querySelector("#answer0").innerHTML = question.answers[0].text;
+    document.querySelector("#answer1").innerHTML = question.answers[1].text;
+    document.querySelector("#answer2").innerHTML = question.answers[2].text;
+    document.querySelector("#answer3").innerHTML = question.answers[3].text;
 }
 
 function startGame() {
