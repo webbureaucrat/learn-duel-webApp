@@ -38,9 +38,9 @@ function buildScore(players) {
 
 function setScoreBackground(flag) {
     if (flag === 0) {
-        $('html, body').css("background-color", "#2BFF60");
+        $('html, body').css("background-color", "#69FFAA");
     } else {
-        $('html, body').css("background-color", "#FF584D");
+        $('html, body').css("background-color", "#FF8F87");
         $('html, body').css("color", "white");
     }
 }
