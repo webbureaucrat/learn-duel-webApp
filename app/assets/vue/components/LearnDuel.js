@@ -23,7 +23,7 @@ function onAnswerChosen(pid) {
 }
 
 function displayQuestions(question) {
-    document.querySelector(".text-center").text(question.text);
+    document.querySelector(".text-center").textContent(question.text);
     document.querySelector("#answer0").html(question.answers[0].text);
     document.querySelector("#answer1").html(question.answers[1].text);
     document.querySelector("#answer2").html(question.answers[2].text);
