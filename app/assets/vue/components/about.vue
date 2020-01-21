@@ -12,7 +12,7 @@
                 <p class="lead">The game Learn Duel is based on QuizDuel and works in a similar fashion, but with a new
                     twist:
                     <br/>
-                    You play with questions based on your school or study assignments.
+                    You play with questions based on your school or study assignments to learn.
                     <br>
                     <button class="btn btn-outline-secondary" id="play-game" v-on:click="playGame">Play the game!</button>
                 </p>
@@ -27,7 +27,7 @@
 
                 <p><small>
                     When the game starts, it shows you the questions you want to learn.
-                    By clicking with your mouse on one of the four answers, you will get the next question.
+                    By clicking with your mouse on one of the four answers, you will get to the next question.
                     You will have 60 seconds to answer each question.
                 </small></p>
                 <br>

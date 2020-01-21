@@ -5,10 +5,10 @@
         <div>Remaining Time: <span id="countdown"> </span></div>
 
         <div class="list-group">
-            <button id='answer0' v-on:click='onAnswerChosen(1)'></button>
-            <button id='answer1' v-on:click='onAnswerChosen(2)'></button>
-            <button id='answer2' v-on:click='onAnswerChosen(3)'></button>
-            <button id='answer3' v-on:click='onAnswerChosen(4)'></button>
+            <button type="button" class="btn btn-outline-primary" id='answer0' v-on:click='onAnswerChosen(1)'></button>
+            <button type="button" class="btn btn-outline-primary" id='answer1' v-on:click='onAnswerChosen(2)'></button>
+            <button type="button" class="btn btn-outline-primary" id='answer2' v-on:click='onAnswerChosen(3)'></button>
+            <button type="button" class="btn btn-outline-primary" id='answer3' v-on:click='onAnswerChosen(4)'></button>
         </div>
     </div>
 </template>
